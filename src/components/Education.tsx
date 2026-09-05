@@ -1,5 +1,5 @@
 import { CERTS, DEGREES } from "../data/content";
-import { LineInView, Reveal } from "./Reveal";
+import { Reveal, WordsInView } from "./Reveal";
 
 export function Education() {
   return (
@@ -7,7 +7,7 @@ export function Education() {
       <div className="edu-grid">
         <div>
           <h2 className="sec-title">
-            <LineInView>Formação</LineInView>
+            <WordsInView>Formação</WordsInView>
           </h2>
           {DEGREES.map((d) => (
             <Reveal key={d.course} y={22} className="degree">

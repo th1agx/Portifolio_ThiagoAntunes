@@ -1,5 +1,5 @@
 import { STACK_GROUPS } from "../data/content";
-import { LineInView, Reveal } from "./Reveal";
+import { Reveal, WordsInView } from "./Reveal";
 import { ScrambleText } from "./ScrambleText";
 
 /**
@@ -10,7 +10,7 @@ export function Stack() {
   return (
     <section className="section" id="stack" aria-label="Stack e ferramentas">
       <h2 className="sec-title">
-        <LineInView>Arsenal</LineInView>
+        <WordsInView>Arsenal</WordsInView>
       </h2>
 
       <div className="stack-list">

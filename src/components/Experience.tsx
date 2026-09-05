@@ -1,5 +1,5 @@
 import { EXPERIENCE } from "../data/content";
-import { LineInView, Reveal } from "./Reveal";
+import { Reveal, WordsInView } from "./Reveal";
 
 /**
  * Trajetória como texto corrido: período em serif itálico à esquerda,
@@ -9,7 +9,7 @@ export function Experience() {
   return (
     <section className="section" id="experiencia" aria-label="Experiência">
       <h2 className="sec-title">
-        <LineInView>Trajetória</LineInView>
+        <WordsInView>Trajetória</WordsInView>
       </h2>
 
       <div className="xp-list">
