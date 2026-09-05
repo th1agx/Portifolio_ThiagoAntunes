@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { EASE } from "../lib/utils";
 import { getLenis, scrollToSection } from "../lib/scroll";
 import { SOCIALS } from "../data/content";
@@ -14,6 +14,7 @@ const LINKS = [
 
 export function Nav({ ready }: { ready: boolean }) {
   const [open, setOpen] = useState(false);
+  const [onLight, setOnLight] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("menu-open", open);
@@ -21,6 +22,21 @@ export function Nav({ ready }: { ready: boolean }) {
     if (open) lenis?.stop();
     else lenis?.start();
   }, [open]);
+
+  // tinta do nav acompanha a seção: claro sobre fundos escuros,
+  // escuro sobre chalk e lime — logo e links sempre aparentes
+  // (via pipeline do motion, que enxerga o Lenis)
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const probe = y + window.innerHeight * 0.35;
+    const wraps = [...document.querySelectorAll<HTMLElement>(".panel-wrap")];
+    let current: HTMLElement | null = null;
+    for (const w of wraps) {
+      if (w.offsetTop <= probe) current = w;
+    }
+    const cls = current?.className ?? "";
+    setOnLight(cls.includes("chalk") || cls.includes("lime"));
+  });
 
   const go = (id: string) => {
     setOpen(false);
@@ -30,7 +46,7 @@ export function Nav({ ready }: { ready: boolean }) {
   return (
     <>
       <motion.header
-        className="nav"
+        className={`nav ${onLight ? "nav--on-light" : "nav--on-dark"}`}
         initial={{ y: -70, opacity: 0 }}
         animate={ready ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
@@ -41,7 +57,7 @@ export function Nav({ ready }: { ready: boolean }) {
           data-cursor="link"
           aria-label="Voltar ao topo"
         >
-          <img className="nav-logo" src="/logo-head.png" alt="" draggable={false} />
+          <span className="nav-logo" aria-hidden="true" />
         </button>
 
         <nav className="nav-links" aria-label="Navegação principal">
