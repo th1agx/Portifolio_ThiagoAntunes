@@ -1,6 +1,7 @@
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
 import { EASE } from "../lib/utils";
-import { LineMask } from "./Reveal";
+import { gsap, SplitText } from "../lib/gsap";
 import { ScrambleCycle } from "./ScrambleText";
 
 const CYCLE = [
@@ -46,8 +47,8 @@ function OrbitBadge() {
 }
 
 /**
- * Hero cinético em grafite: nome gigante + badge orbital.
- * Só o essencial — o resto é o desenho girando.
+ * Hero cinético em grafite: nome gigante letra a letra (GSAP),
+ * badge orbital elástico e o resto em cascata.
  */
 export function Hero({ ready }: { ready: boolean }) {
   const reduce = useReducedMotion();
@@ -59,25 +60,51 @@ export function Hero({ ready }: { ready: boolean }) {
   const fade = useTransform(scrollY, [0, 520], [1, 0.1]);
   const base = ready ? 0.45 : 0;
 
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ready || reduce || !titleRef.current) return;
+    const ctx = gsap.context(() => {
+      const split = new SplitText(titleRef.current!, { type: "chars" });
+      gsap.set(split.chars, { transformOrigin: "50% 100%" });
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo(
+        split.chars,
+        { yPercent: 130, rotateX: -85, opacity: 0 },
+        {
+          yPercent: 0,
+          rotateX: 0,
+          opacity: 1,
+          duration: 1.0,
+          stagger: 0.045,
+          ease: "back.out(1.4)",
+        },
+        0
+      ).fromTo(
+        badgeRef.current,
+        { scale: 0, rotate: -120, opacity: 0 },
+        { scale: 1, rotate: 0, opacity: 1, duration: 1.3, ease: "elastic.out(1, 0.55)" },
+        0.55
+      );
+    }, titleRef);
+    return () => ctx.revert();
+  }, [ready, reduce]);
+
   return (
     <section className="hero" id="topo" aria-label="Apresentação">
-      <OrbitBadge />
+      <div ref={badgeRef} className="orbit-badge-wrap" aria-hidden="true">
+        <OrbitBadge />
+      </div>
       <motion.div className="hero-inner" style={reduce ? undefined : { y, opacity: fade }}>
         <motion.h1
           className="hero-title"
+          ref={titleRef}
           style={reduce ? undefined : { skewY: skew }}
           aria-label="Thiago Filipe"
         >
-          <span className="line">
-            <LineMask ready={ready} delay={base + 0.05}>
-              Thiago
-            </LineMask>
-          </span>
-          <span className="line">
-            <LineMask ready={ready} delay={base + 0.16}>
-              Filipe
-            </LineMask>
-          </span>
+          <span className="line">Thiago</span>
+          <span className="line">Filipe</span>
         </motion.h1>
 
         <motion.p

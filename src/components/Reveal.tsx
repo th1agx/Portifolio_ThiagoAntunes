@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { EASE } from "../lib/utils";
+import { gsap, SplitText } from "../lib/gsap";
 
 /* ------------------------------------------------------------------ */
 /* Primitivas de entrada usadas em todo o site.                        */
@@ -83,33 +85,38 @@ export function LineInView({ children, delay = 0, className }: LineInViewProps) 
 }
 
 /**
- * Título revelado PALAVRA por palavra: cada uma sobe da máscara com
- * um leve giro — entrada rica, com ritmo, para títulos de seção.
+ * Título revelado letra a letra (GSAP SplitText + ScrollTrigger):
+ * cada caractere sobe com giro 3D e ritmo orgânico.
  */
 export function WordsInView({ children, className }: LineInViewProps) {
   const reduce = useReducedMotion();
-  const text = typeof children === "string" ? children : String(children ?? "");
-  const words = text.split(" ").filter(Boolean);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (reduce || !ref.current) return;
+    const ctx = gsap.context(() => {
+      const split = new SplitText(ref.current!, { type: "words,chars" });
+      gsap.set(split.chars, { transformOrigin: "50% 100%" });
+      gsap.fromTo(
+        split.chars,
+        { yPercent: 120, rotateX: -75, opacity: 0 },
+        {
+          yPercent: 0,
+          rotateX: 0,
+          opacity: 1,
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: { each: 0.02, from: "start" },
+          scrollTrigger: { trigger: ref.current, start: "top 88%", once: true },
+        }
+      );
+    }, ref);
+    return () => ctx.revert();
+  }, [reduce]);
+
   return (
-    <span className={`words-in ${className ?? ""}`}>
-      {words.map((w, i) => (
-        <span key={i} className="mask wi-mask">
-          <motion.span
-            className="mask-inner"
-            initial={reduce ? { y: "0%" } : { y: "112%", rotate: 5 }}
-            whileInView={{ y: "0%", rotate: 0 }}
-            viewport={{ once: true, margin: "-6% 0px -6% 0px" }}
-            transition={{
-              duration: reduce ? 0 : 0.9,
-              delay: reduce ? 0 : 0.08 + i * 0.07,
-              ease: EASE,
-            }}
-          >
-            {w}
-            {i < words.length - 1 ? "\u00A0" : ""}
-          </motion.span>
-        </span>
-      ))}
+    <span className={`words-in ${className ?? ""}`} ref={ref}>
+      {children}
     </span>
   );
 }
