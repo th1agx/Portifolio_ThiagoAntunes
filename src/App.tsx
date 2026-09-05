@@ -58,13 +58,13 @@ export default function App() {
         <Marquee />
 
         {/* sheet chalk — quem eu sou + formação */}
-        <CapsulePanel fill="#EDEDE8" className="panel-chalk" z={2}>
+        <CapsulePanel fill="#EDEDE8" className="panel-chalk" variant="sheetR" z={2}>
           <About />
           <Education />
         </CapsulePanel>
 
         {/* sheet graphite — o que construí */}
-        <CapsulePanel fill="#131412" className="panel-graphite" z={3}>
+        <CapsulePanel fill="#131412" className="panel-graphite" variant="sheetL" z={3}>
           <Works />
           <Showcase />
           <Experience />

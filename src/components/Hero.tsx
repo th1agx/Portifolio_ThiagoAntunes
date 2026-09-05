@@ -7,6 +7,7 @@ import { ScrambleCycle } from "./ScrambleText";
 
 /** Badge circular: texto orbitando um asterisco, girando sem parar. */
 function OrbitBadge() {
+  const c = useContent();
   // 2πr com r=80 — textLength distribui o texto de forma uniforme na volta
   const CIRC = 2 * Math.PI * 80;
   return (
@@ -24,7 +25,7 @@ function OrbitBadge() {
             textLength={CIRC * 0.985}
             lengthAdjust="spacingAndGlyphs"
           >
-            engenheiro de software · portfólio 2026 · fullstack &amp; genai ·
+            {c.hero.orbit}
           </textPath>
         </text>
       </svg>
