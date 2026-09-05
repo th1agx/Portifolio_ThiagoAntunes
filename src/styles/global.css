@@ -304,7 +304,8 @@ html.cursor-on * {
 }
 
 /* ------------------------------- nav ------------------------------ */
-/* blend apenas nos textos — a logo keep a cor lime pura do site */
+/* tinta do nav acompanha a seção visível — logo e links sempre
+   legíveis, com transição suave de cor */
 .nav {
   position: fixed;
   top: 0;
@@ -316,12 +317,33 @@ html.cursor-on * {
   justify-content: space-between;
   gap: 1.5rem;
   padding: 1.3rem var(--pad);
+  --nav-ink: #efede6;
+}
+
+.nav--on-light {
+  --nav-ink: var(--ink-dark);
+}
+
+.nav-logo,
+.nav-links,
+.nav-burger {
+  transition: background-color 0.45s ease, color 0.45s ease,
+    border-color 0.45s ease;
+}
+
+/* a logo é uma MÁSCARA do PNG — pinta com a tinta corrente */
+.nav-logo {
+  display: block;
+  height: clamp(22px, 2.4vw, 28px);
+  aspect-ratio: 1492 / 568;
+  background-color: var(--nav-ink);
+  -webkit-mask: url("/logo-head.png") center / contain no-repeat;
+  mask: url("/logo-head.png") center / contain no-repeat;
 }
 
 .nav-links,
 .nav-burger {
-  color: #fff;
-  mix-blend-mode: difference;
+  color: var(--nav-ink);
 }
 
 .nav-brand {
