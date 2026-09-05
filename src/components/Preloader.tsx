@@ -1,16 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
 import { gsap } from "../lib/gsap";
-import { useContent } from "../i18n";
 
 /**
- * Tela de carregamento (GSAP, ~5s): minimalista e calma — o nome em
- * serif itálico sobe de dentro da máscara, uma linha lime se desenha
- * sob ele, o contador corre discreto no canto e a saída é um único
- * wipe vertical. Nada de glifos frenéticos.
+ * Tela de carregamento (GSAP, ~5s): um único objeto em cena — o
+ * asterisco lime girando e respirando — com o progresso na régua do
+ * rodapé e um contador discreto no canto. Sem textos.
  */
 export function Preloader({ onDone }: { onDone: () => void }) {
-  const c = useContent();
   const reduce = useReducedMotion();
   const root = useRef<HTMLDivElement>(null);
   const done = useRef(onDone);
@@ -26,28 +23,33 @@ export function Preloader({ onDone }: { onDone: () => void }) {
       const countEl = el.querySelector(".pre-count b")!;
       const counter = { v: 0 };
 
+      // o objeto: gira sem parar e respira enquanto carrega
+      const spin = gsap.to(".pre-star", {
+        rotation: 360,
+        duration: 3.2,
+        ease: "none",
+        repeat: -1,
+        transformOrigin: "50% 50%",
+      });
+      const breathe = gsap.to(".pre-star", {
+        scale: 1.12,
+        duration: 0.9,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+        transformOrigin: "50% 50%",
+      });
+
       const tl = gsap.timeline({
         onComplete: () => window.setTimeout(() => done.current(), 100),
       });
 
-      tl.fromTo(
-        ".pre-name-inner",
-        { yPercent: 115 },
-        { yPercent: 0, duration: 1.2, ease: "power4.out" },
-        0.3
-      )
-        .fromTo(".pre-sub", { opacity: 0 }, { opacity: 1, duration: 0.8 }, 1.1)
-        .fromTo(
-          ".pre-underline",
-          { scaleX: 0 },
-          { scaleX: 1, duration: 3.4, ease: "power2.inOut" },
-          0.8
-        )
+      tl.fromTo(".pre-star", { scale: 0, rotation: -120 }, { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.1)
         .to(
           counter,
           {
             v: 100,
-            duration: 4.2,
+            duration: 4.1,
             ease: "power2.inOut",
             onUpdate: () => {
               countEl.textContent = String(Math.round(counter.v));
@@ -55,11 +57,16 @@ export function Preloader({ onDone }: { onDone: () => void }) {
           },
           0.3
         )
-        .fromTo(".pre-bar", { scaleX: 0 }, { scaleX: 1, duration: 4.2, ease: "power2.inOut" }, 0.3)
-        // saída calma: nome desce de volta, um único wipe sobe
-        .to(".pre-name-inner", { yPercent: -115, duration: 0.7, ease: "power3.in" }, "+=0.25")
-        .to(".pre-sub, .pre-count, .pre-underline", { opacity: 0, duration: 0.35 }, "<")
+        .fromTo(".pre-bar", { scaleX: 0 }, { scaleX: 1, duration: 4.1, ease: "power2.inOut" }, 0.3)
+        // saída: o asterisco dispara girando e some, wipe único sobe
+        .to(".pre-count, .pre-bar", { opacity: 0, duration: 0.3 }, "+=0.2")
+        .to(".pre-star", { scale: 0, rotation: "+=320", duration: 0.55, ease: "power3.in" }, "<")
         .to(".pre-veil", { yPercent: -101, duration: 1.0, ease: "power4.inOut" }, "-=0.1");
+
+      return () => {
+        spin.kill();
+        breathe.kill();
+      };
     }, root);
 
     return () => ctx.revert();
@@ -69,13 +76,13 @@ export function Preloader({ onDone }: { onDone: () => void }) {
     <div className="preloader" ref={root} aria-hidden="true">
       <div className="pre-veil" />
       <div className="pre-ui">
-        <div className="pre-center">
-          <div className="pre-name">
-            <span className="pre-name-inner serif">{c.preloader.name}</span>
-          </div>
-          <div className="pre-underline" />
-          <p className="serif pre-sub">{c.preloader.sub}</p>
-        </div>
+        <svg className="pre-star" viewBox="0 0 100 100">
+          <g stroke="currentColor" strokeWidth="7" strokeLinecap="round">
+            <line x1="50" y1="14" x2="50" y2="86" />
+            <line x1="21" y1="31" x2="79" y2="69" />
+            <line x1="21" y1="69" x2="79" y2="31" />
+          </g>
+        </svg>
         <div className="pre-count">
           <b>0</b>
           <span>%</span>

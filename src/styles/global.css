@@ -265,16 +265,7 @@ html.cursor-on * {
   color: rgba(239, 237, 230, 0.62);
 }
 
-.pre-name {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  font-size: clamp(2.2rem, 7vw, 6rem);
-  white-space: nowrap;
-}
+
 
 .pre-count {
   position: absolute;
@@ -1422,29 +1413,11 @@ html.menu-open .nav-burger .l2 {
   color: var(--ink-light);
 }
 
-.pre-name {
-  position: absolute;
-  left: 50%;
-  top: 44%;
-  translate: -50% -50%;
-  font-weight: 750;
-  letter-spacing: -0.04em;
-  font-size: clamp(2.2rem, 7vw, 6rem);
-  white-space: nowrap;
-  perspective: 700px;
-}
 
 
 
-.pre-sub {
-  position: absolute;
-  left: 50%;
-  top: 56%;
-  translate: -50% 0;
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: rgba(239, 237, 230, 0.66);
-  white-space: nowrap;
-}
+
+
 
 .pre-count b {
   font-weight: 700;
@@ -1543,41 +1516,24 @@ html.menu-open .nav-burger .l2 {
   will-change: transform;
 }
 
-.pre-center {
+
+
+
+
+
+
+
+
+
+
+/* preloader de objeto único: asterisco central */
+.pre-star {
   position: absolute;
   left: 50%;
   top: 50%;
+  width: clamp(88px, 10vw, 132px);
+  height: clamp(88px, 10vw, 132px);
   translate: -50% -50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.1rem;
-  width: max-content;
-}
-
-.pre-name {
-  overflow: hidden;
-  padding-bottom: 0.12em;
-  font-size: clamp(2rem, 6vw, 4.6rem);
-  color: var(--ink-light);
-  white-space: nowrap;
-}
-
-.pre-name-inner {
-  display: inline-block;
+  color: var(--lime);
   will-change: transform;
-  font-style: italic;
-}
-
-.pre-underline {
-  width: 100%;
-  height: 2px;
-  background: var(--lime);
-  transform-origin: left center;
-}
-
-.pre-sub {
-  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
-  color: rgba(239, 237, 230, 0.6);
-  white-space: nowrap;
 }
