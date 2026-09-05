@@ -1,7 +1,6 @@
 import { useContent } from "../i18n";
 import { WordsInView } from "./Reveal";
 import { GsapIn } from "./GsapIn";
-import { Parallax } from "./Parallax";
 
 export function Education() {
   const c = useContent();
@@ -9,11 +8,9 @@ export function Education() {
     <section className="section" id="formacao" aria-label="Formação e estudos">
       <div className="edu-grid">
         <div>
-          <Parallax dir="left" speed={0.9}>
-            <h2 className="sec-title">
+          <h2 className="sec-title">
               <WordsInView>{c.sections.eduTitle}</WordsInView>
             </h2>
-          </Parallax>
           {c.education.degrees.map((d) => (
             <GsapIn key={d.course} preset="drop" className="degree">
               <h3 className="degree-course">{d.course}</h3>
