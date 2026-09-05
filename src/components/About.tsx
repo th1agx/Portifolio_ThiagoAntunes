@@ -59,13 +59,11 @@ export function About() {
 
       <div className="about-body">
         {paras.map((words, pi) => (
-          <GsapIn key={pi} preset={pi % 2 ? "slideR" : "skew"}>
-          <p className="w-para">
+          <p key={pi} className="w-para">
             {words.map((word, wi) => (
               <Word key={`${pi}-${wi}`} w={word.w} em={word.em} i={wi} />
             ))}
           </p>
-          </GsapIn>
         ))}
 
         <GsapIn preset="wipe">
