@@ -1,17 +1,12 @@
 import { useRef } from "react";
 import type { ReactNode } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 /**
-<<<<<<< HEAD
- * Painel-onda: gruda no topo e entra VARRENDO a seção anterior com uma
- * borda ondulada (SVG senoidal que ondula sem parar). Sem translateY —
- * a onda fica visível do começo ao fim da subida, varrendo a tela toda.
-=======
- * Cápsula: o painel novo entra reduzido (0.62) como uma pílula
- * arredondada — a seção anterior fica visível ao redor, moldura da
- * prévia — e cresce até cobrir a tela. Sombra profunda dá o relevo.
- * A mesma linguagem do take do showcase, agora nas seções.
->>>>>>> develop
+ * Cápsula: o painel novo entra bem reduzido e inclinado — a seção
+ * anterior vira moldura de prévia ao redor — e cresce endireitando
+ * até cobrir a tela, com o conteúdo acendendo junto. Sombra profunda
+ * dá o relevo. A linguagem do take do showcase, em todas as seções.
  */
 export function CapsulePanel({
   children,
@@ -27,37 +22,36 @@ export function CapsulePanel({
   z?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-<<<<<<< HEAD
-=======
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "start start"],
   });
-  const scale = useTransform(scrollYProgress, [0, 1], [0.62, 1]);
-  const radius = useTransform(scrollYProgress, [0, 1], ["14vw", "0vw"]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.55, 1]);
+  const radius = useTransform(scrollYProgress, [0, 1], ["16vw", "0vw"]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [-2.5, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0.1, 0.5], [0, 1]);
 
->>>>>>> develop
   return (
     <div
       ref={ref}
       className={`panel-wrap ${className ?? ""}`}
       style={{ zIndex: z }}
     >
-<<<<<<< HEAD
-      <div className="panel" style={{ background: fill }}>
-        <Wave fill={fill} />
-=======
       <motion.div
         className="panel capsule"
         style={{
           background: fill,
-          ...(reduce ? {} : { scale, borderRadius: radius }),
+          ...(reduce ? {} : { scale, borderRadius: radius, rotate }),
         }}
       >
->>>>>>> develop
-        {children}
-      </div>
+        <motion.div
+          className="panel-content"
+          style={reduce ? undefined : { opacity: contentOpacity }}
+        >
+          {children}
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

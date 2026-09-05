@@ -64,7 +64,12 @@ export function Works() {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const px = useSpring(mx, { stiffness: 260, damping: 26, mass: 0.55 });
-  const py = useSpring(my, { stiffness: 260, damping: 26, mass: 0.55 });
+  // o pôster nunca escapa da tela: o Y fica preso dentro da viewport
+  const myClamped = useTransform(my, (v) => {
+    const halfH = (Math.min(400, Math.max(230, window.innerWidth * 0.24)) * 1.25) / 2;
+    return Math.min(Math.max(v, halfH + 28), window.innerHeight - halfH - 28);
+  });
+  const py = useSpring(myClamped, { stiffness: 260, damping: 26, mass: 0.55 });
   const rot = useTransform(useVelocity(px), [-1600, 1600], [-6, 6]);
 
   const onMove = (e: ReactPointerEvent<HTMLDivElement>) => {

@@ -65,7 +65,7 @@ export const PROJECTS: Project[] = [
     posterLine: "entrega com evidência",
     year: "2026",
     variant: "guard",
-    link: "https://github.com/th1agx",
+    link: "https://github.com/th1agx/devguard-skill",
   },
   {
     id: "erp-3dlab",
@@ -86,7 +86,7 @@ export const PROJECTS: Project[] = [
     posterLine: "full throttle",
     year: "2025",
     variant: "forza",
-    link: "https://github.com/th1agx",
+    link: "https://github.com/th1agx/Python---Forza-Horizon-5-Auto-Drive-XP-Farm.",
   },
   {
     id: "numero-secreto",
@@ -97,7 +97,7 @@ export const PROJECTS: Project[] = [
     posterLine: "adivinhe se puder",
     year: "2024",
     variant: "secret",
-    link: "https://github.com/th1agx",
+    link: "https://github.com/th1agx/Projeto-Jogo-do-Numero-Secreto",
   },
 ];
 
