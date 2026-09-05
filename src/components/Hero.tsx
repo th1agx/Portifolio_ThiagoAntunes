@@ -2,15 +2,8 @@ import { useEffect, useRef } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
 import { EASE } from "../lib/utils";
 import { gsap, SplitText } from "../lib/gsap";
+import { useContent } from "../i18n";
 import { ScrambleCycle } from "./ScrambleText";
-
-const CYCLE = [
-  "desenvolvimento fullstack",
-  "IA generativa & agentes",
-  "ERP & sistemas web",
-  "prompt engineering",
-  "automações & scripts",
-];
 
 /** Badge circular: texto orbitando um asterisco, girando sem parar. */
 function OrbitBadge() {
@@ -51,6 +44,7 @@ function OrbitBadge() {
  * badge orbital elástico e o resto em cascata.
  */
 export function Hero({ ready }: { ready: boolean }) {
+  const c = useContent();
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
   const velocity = useVelocity(scrollY);
@@ -101,10 +95,10 @@ export function Hero({ ready }: { ready: boolean }) {
           className="hero-title"
           ref={titleRef}
           style={reduce ? undefined : { skewY: skew }}
-          aria-label="Thiago Filipe"
+          aria-label={c.hero.nameLines.join(" ")}
         >
-          <span className="line">Thiago</span>
-          <span className="line">Filipe</span>
+          <span className="line">{c.hero.nameLines[0]}</span>
+          <span className="line">{c.hero.nameLines[1]}</span>
         </motion.h1>
 
         <motion.p
@@ -113,7 +107,7 @@ export function Hero({ ready }: { ready: boolean }) {
           animate={ready ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, delay: base + 0.3, ease: EASE }}
         >
-          engenharia de software <span className="green">&</span> interfaces vivas
+          {c.hero.taglinePre} <span className="green">{c.hero.taglineAmp}</span> {c.hero.taglinePos}
         </motion.p>
 
         <div className="hero-sub">
@@ -124,11 +118,11 @@ export function Hero({ ready }: { ready: boolean }) {
             transition={{ duration: 0.8, delay: base + 0.42, ease: EASE }}
           >
             <p className="hero-role-line">
-              Engenheiro de software júnior no <span className="green">3D Lab</span> — fullstack,
-              IA generativa e movimento por toda interface.
+              {c.hero.roleLinePre} <span className="green">{c.hero.roleLineHL}</span>{" "}
+              {c.hero.roleLinePos}
             </p>
             <p className="hero-cycle green">
-              <ScrambleCycle phrases={CYCLE} />
+              <ScrambleCycle phrases={c.hero.cycle} />
             </p>
           </motion.div>
 
@@ -142,7 +136,7 @@ export function Hero({ ready }: { ready: boolean }) {
             <span className="scroll-track">
               <span className="scroll-dot" />
             </span>
-            role para conhecer
+            {c.hero.scrollHint}
           </motion.div>
         </div>
       </motion.div>

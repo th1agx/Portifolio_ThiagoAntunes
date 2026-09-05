@@ -1466,3 +1466,46 @@ html.menu-open .nav-burger .l2 {
   position: static;
   width: 100%;
 }
+
+/* toggle de idioma PT/EN */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.35rem;
+  border: 1px solid rgba(239, 237, 230, 0.25);
+  border-radius: 999px;
+}
+
+.nav--on-light .lang-toggle {
+  border-color: rgba(20, 20, 16, 0.25);
+}
+
+.lang-btn {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  color: var(--nav-ink);
+  opacity: 0.55;
+  transition: opacity 0.3s, background 0.3s, color 0.3s;
+}
+
+.lang-btn.on {
+  opacity: 1;
+  background: var(--lime);
+  color: var(--ink-dark);
+}
+
+.lang-toggle.mobile {
+  border-color: rgba(239, 237, 230, 0.25);
+}
+
+.lang-toggle.mobile .lang-btn {
+  color: var(--ink-light);
+}
+
+.lang-toggle.mobile .lang-btn.on {
+  color: var(--ink-dark);
+}

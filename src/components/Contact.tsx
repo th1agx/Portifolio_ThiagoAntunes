@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { EMAIL, SOCIALS } from "../data/content";
+import { useContent } from "../i18n";
 import { LineInView } from "./Reveal";
 import { Magnetic } from "./Magnetic";
 
 function LocalTime() {
+  const c = useContent();
   const [now, setNow] = useState(() => new Date());
   const fmt = useMemo(
     () =>
@@ -21,22 +23,22 @@ function LocalTime() {
     return () => window.clearInterval(id);
   }, []);
 
-  return <span>{fmt.format(now)} em BH</span>;
-}
+  return <span>{fmt.format(now)} {c.contact.localCity}</span>;}
 
 /**
  * Finale lime: conteúdo direto no painel-onda — título, CTA gigante
  * e foot-bar. Sem gates de opacity: nada de texto fantasma.
  */
 export function Contact() {
+  const c = useContent();
   return (
     <footer className="contact" id="contato" aria-label="Contato">
       <h2 className="contact-title">
         <span className="t-line">
-          <LineInView>Bora construir</LineInView>
+          <LineInView>{c.contact.titleA}</LineInView>
         </span>
         <span className="t-line serif em">
-          <LineInView delay={0.12}>algo grande?</LineInView>
+          <LineInView delay={0.12}>{c.contact.titleB}</LineInView>
         </span>
       </h2>
 
@@ -64,12 +66,12 @@ export function Contact() {
       </div>
 
       <div className="foot-bar">
-        <span>© 2026 Thiago Filipe</span>
+        <span>© 2026 Thiago Antunes</span>
         <span className="serif">
           <LocalTime />
         </span>
         <a className="to-top" href="#topo" data-cursor="link">
-          voltar ao topo
+          {c.contact.toTop}
         </a>
       </div>
     </footer>

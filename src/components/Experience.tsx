@@ -1,27 +1,32 @@
-import { EXPERIENCE } from "../data/content";
-import { Reveal, WordsInView } from "./Reveal";
+import { useContent } from "../i18n";
+import { WordsInView } from "./Reveal";
+import { GsapIn } from "./GsapIn";
+import { Parallax } from "./Parallax";
 
 /**
  * Trajetória como texto corrido: período em serif itálico à esquerda,
  * cargo e história à direita. Sem bullets, sem travessões.
  */
 export function Experience() {
+  const c = useContent();
   return (
     <section className="section" id="experiencia" aria-label="Experiência">
-      <h2 className="sec-title">
-        <WordsInView>Trajetória</WordsInView>
-      </h2>
+      <Parallax dir="left" speed={0.9}>
+        <h2 className="sec-title">
+          <WordsInView>{c.sections.xpTitle}</WordsInView>
+        </h2>
+      </Parallax>
 
       <div className="xp-list">
-        {EXPERIENCE.map((xp, i) => (
-          <Reveal key={xp.period} delay={i * 0.05} y={34} className="xp-row">
+        {c.experience.map((xp, i) => (
+          <GsapIn key={xp.period} preset={i % 2 ? "slideR" : "slideL"} className="xp-row">
             <p className="serif xp-period">{xp.period}</p>
             <div className="xp-body">
-              <h3 className={`xp-role ${xp.music ? "serif" : ""}`}>{xp.role}</h3>
+              <h3 className="xp-role">{xp.role}</h3>
               <p className="serif xp-org">{xp.org}</p>
               <p className="xp-text">{xp.text}</p>
             </div>
-          </Reveal>
+          </GsapIn>
         ))}
       </div>
     </section>

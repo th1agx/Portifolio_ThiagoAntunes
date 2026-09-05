@@ -1,39 +1,44 @@
-import { CERTS, DEGREES } from "../data/content";
-import { Reveal, WordsInView } from "./Reveal";
+import { useContent } from "../i18n";
+import { WordsInView } from "./Reveal";
+import { GsapIn } from "./GsapIn";
+import { Parallax } from "./Parallax";
 
 export function Education() {
+  const c = useContent();
   return (
     <section className="section" id="formacao" aria-label="Formação e estudos">
       <div className="edu-grid">
         <div>
-          <h2 className="sec-title">
-            <WordsInView>Formação</WordsInView>
-          </h2>
-          {DEGREES.map((d) => (
-            <Reveal key={d.course} y={22} className="degree">
+          <Parallax dir="left" speed={0.9}>
+            <h2 className="sec-title">
+              <WordsInView>{c.sections.eduTitle}</WordsInView>
+            </h2>
+          </Parallax>
+          {c.education.degrees.map((d) => (
+            <GsapIn key={d.course} preset="drop" className="degree">
               <h3 className="degree-course">{d.course}</h3>
               <p className="degree-meta">
                 {d.school} · {d.period} ·{" "}
                 <span className="serif green">{d.status}</span>
               </p>
-            </Reveal>
+            </GsapIn>
           ))}
         </div>
 
         <div className="edu-certs">
-          <Reveal y={18}>
-            <p className="serif certs-title">pelo caminho, certifiquei-me em</p>
-          </Reveal>
-          <Reveal y={22}>
+          <GsapIn preset="slideL">
+            <p className="serif certs-title">{c.education.certsTitle}</p>
+          </GsapIn>
+          <GsapIn preset="wipe">
             <p className="certs-text">
-              {CERTS.map((c, i) => (
-                <span key={c.name}>
-                  {c.name} <span className="dim">({c.issuer})</span>
-                  {i < CERTS.length - 1 ? ", " : "."}
+              {c.education.certs.map((cert, i) => (
+                <span key={cert.name}>
+                  {cert.name} <span className="dim">({cert.issuer})</span>
+                  {i < c.education.certs.length - 1 ? ", " : "."}
                 </span>
               ))}
             </p>
-          </Reveal>
+          </GsapIn>
         </div>
       </div>
     </section>

@@ -1,12 +1,12 @@
 import { useRef } from "react";
 import { motion, useAnimationFrame, useMotionValue, useReducedMotion, useTransform } from "motion/react";
-import { MARQUEE_ITEMS } from "../data/content";
+import { useContent } from "../i18n";
 import { clamp, wrap } from "../lib/utils";
 
-function Chunk({ hidden }: { hidden?: boolean }) {
+function Chunk({ items, hidden }: { items: string[]; hidden?: boolean }) {
   return (
     <div className="marquee-chunk" aria-hidden={hidden || undefined}>
-      {MARQUEE_ITEMS.map((item, i) => (
+      {items.map((item, i) => (
         <span key={i} className="marquee-item">
           <span className={i % 2 ? "o" : undefined}>{item}</span>
           <span className="marquee-sep" aria-hidden="true">
@@ -23,6 +23,7 @@ function Chunk({ hidden }: { hidden?: boolean }) {
  * rolar para trás chega a inverter a direção — o site "sente" o gesto.
  */
 export function Marquee() {
+  const c = useContent();
   const reduce = useReducedMotion();
   const x = useMotionValue(0);
   const xPct = useTransform(x, (v) => `${wrap(-50, 0, v)}%`);
@@ -40,10 +41,10 @@ export function Marquee() {
   });
 
   return (
-    <div className="marquee" aria-label="Stack em destaque">
+    <div className="marquee" aria-label="Stack">
       <motion.div className="marquee-track" style={reduce ? undefined : { x: xPct }}>
-        <Chunk />
-        <Chunk hidden />
+        <Chunk items={c.marquee} />
+        <Chunk items={c.marquee} hidden />
       </motion.div>
     </div>
   );

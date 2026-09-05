@@ -14,6 +14,7 @@ import { Stack } from "./components/Stack";
 import { Contact } from "./components/Contact";
 import { CapsulePanel } from "./components/Panel";
 import { getLenis, initScroll } from "./lib/scroll";
+import { LangProvider } from "./i18n";
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
@@ -38,7 +39,7 @@ export default function App() {
   }, [loaded]);
 
   return (
-    <>
+    <LangProvider>
       <a className="skip" href="#conteudo">
         Pular para o conteúdo
       </a>
@@ -75,6 +76,6 @@ export default function App() {
           <Contact />
         </CapsulePanel>
       </main>
-    </>
+    </LangProvider>
   );
 }
