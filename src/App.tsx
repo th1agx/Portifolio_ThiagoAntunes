@@ -56,13 +56,13 @@ export default function App() {
         <Hero ready={loaded} />
         <Marquee />
 
-        {/* onda chalk — quem eu sou + formação */}
+        {/* sheet chalk — quem eu sou + formação */}
         <CapsulePanel fill="#EDEDE8" className="panel-chalk" z={2}>
           <About />
           <Education />
         </CapsulePanel>
 
-        {/* onda graphite — o que construí */}
+        {/* sheet graphite — o que construí */}
         <CapsulePanel fill="#131412" className="panel-graphite" z={3}>
           <Works />
           <Showcase />
@@ -70,8 +70,8 @@ export default function App() {
           <Stack />
         </CapsulePanel>
 
-        {/* onda lime — o finale */}
-        <CapsulePanel fill="#D7F452" className="panel-lime" z={4}>
+        {/* cápsula lime — o finale */}
+        <CapsulePanel fill="#D7F452" className="panel-lime" variant="capsule" z={4}>
           <Contact />
         </CapsulePanel>
       </main>
