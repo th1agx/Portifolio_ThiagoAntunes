@@ -1,20 +1,25 @@
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
 import { gsap } from "../lib/gsap";
+import { GLYPHS } from "../lib/utils";
+import { useContent } from "../i18n";
 
 const COLS = [0, 1, 2, 3, 4];
-const NAME = "Thiago Filipe";
 
 /**
- * Tela de carregamento cinematográfica (GSAP): o nome entra letra a
- * letra em 3D, contador e régua correm juntos, e a saída é uma
- * cortina de colunas com stagger. ~5 segundos de abertura.
+ * Tela de carregamento (GSAP, ~7s): o nome é decodificado letra a
+ * letra em "slot machine" (glifos aleatórios travando na letra
+ * certa), palavras-chave ciclam em scramble, o asterisco lime gira,
+ * e a saída tem um flash lime varrendo as colunas antes da cortina.
  */
 export function Preloader({ onDone }: { onDone: () => void }) {
+  const c = useContent();
   const reduce = useReducedMotion();
   const root = useRef<HTMLDivElement>(null);
   const done = useRef(onDone);
   done.current = onDone;
+
+  const words = [c.hero.taglinePre, "genai", c.hero.taglinePos, "motion"];
 
   useEffect(() => {
     if (reduce) {
@@ -24,64 +29,95 @@ export function Preloader({ onDone }: { onDone: () => void }) {
     const ctx = gsap.context(() => {
       const el = root.current!;
       const countEl = el.querySelector(".pre-count b")!;
+      const subEl = el.querySelector(".pre-sub b")!;
       const counter = { v: 0 };
+      const glyphs = GLYPHS.replace(/[\s]/g, "");
 
       const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        onComplete: () => window.setTimeout(() => done.current(), 120),
+        onComplete: () => window.setTimeout(() => done.current(), 150),
       });
 
-      tl.set(".pre-char", { yPercent: 120, rotateX: -90, opacity: 0 })
-        .fromTo(".pre-label", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6 }, 0.15)
-        .to(
-          ".pre-char",
+      // nome: cada letra é uma slot machine de glifos que trava
+      el.querySelectorAll<HTMLElement>(".pre-char").forEach((ch, i) => {
+        const final = ch.dataset.ch ?? "";
+        if (final === " ") return;
+        const st = { t: 0 };
+        tl.to(
+          st,
           {
-            yPercent: 0,
-            rotateX: 0,
-            opacity: 1,
-            duration: 0.9,
-            stagger: 0.055,
-            ease: "back.out(1.5)",
-          },
-          0.35
-        )
-        .fromTo(".pre-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 1.1)
-        .to(
-          counter,
-          {
-            v: 100,
-            duration: 2.9,
+            t: 1,
+            duration: 0.55,
+            delay: 0.06 + i * 0.085,
             ease: "power2.inOut",
-            onUpdate: () => {
-              countEl.textContent = String(Math.round(counter.v));
+            onUpdate() {
+              ch.textContent =
+                st.t >= 1
+                  ? final
+                  : glyphs[Math.floor(Math.random() * glyphs.length)];
             },
           },
-          0.5
-        )
-        .fromTo(".pre-bar", { scaleX: 0 }, { scaleX: 1, duration: 2.9, ease: "power2.inOut" }, 0.5)
-        // saída: letras voam, cortina de colunas sobe
-        .to(
-          ".pre-char",
-          {
-            yPercent: -130,
-            opacity: 0,
-            duration: 0.5,
-            stagger: { each: 0.03, from: "end" },
-            ease: "power3.in",
-          },
-          "+=0.2"
-        )
-        .to(".pre-sub, .pre-label, .pre-count, .pre-bar", { opacity: 0, duration: 0.3 }, "<")
-        .to(
-          ".pre-col",
-          {
-            yPercent: -101,
-            duration: 0.95,
-            stagger: 0.075,
-            ease: "power4.inOut",
-          },
-          "-=0.05"
+          0.15
         );
+      });
+
+      // palavras-chave ciclam com decode
+      words.forEach((w, i) => {
+        const st = { t: 0 };
+        tl.call(
+          () => {
+            subEl.textContent = w;
+            st.t = 0;
+          },
+          undefined,
+          0.7 + i * 1.05
+        );
+        if (i > 0) {
+          tl.to(
+            st,
+            {
+              t: 1,
+              duration: 0.5,
+              ease: "power2.out",
+              onUpdate() {
+                const n = Math.floor(st.t * w.length);
+                let s = w.slice(0, n);
+                for (let k = n; k < w.length; k++) {
+                  s += glyphs[Math.floor(Math.random() * glyphs.length)];
+                }
+                subEl.textContent = s;
+              },
+            },
+            0.7 + i * 1.05
+          );
+        }
+      });
+
+      // contador + régua (respirando juntos)
+      tl.to(
+        counter,
+        {
+          v: 100,
+          duration: 4.6,
+          ease: "power2.inOut",
+          onUpdate: () => {
+            countEl.textContent = String(Math.round(counter.v));
+          },
+        },
+        0.35
+      );
+      tl.fromTo(".pre-bar", { scaleX: 0 }, { scaleX: 1, duration: 4.6, ease: "power2.inOut" }, 0.35);
+
+      // saída em dois atos: flash lime varre, cortina sobe
+      tl.to(".pre-count, .pre-sub, .pre-star", { opacity: 0, duration: 0.35 }, "+=0.15")
+        .fromTo(
+          ".pre-col-flash",
+          { scaleY: 0, transformOrigin: "50% 100%" },
+          { scaleY: 1, duration: 0.5, stagger: 0.055, ease: "power3.in" },
+          "<"
+        )
+        .to(".pre-char", { opacity: 0, duration: 0.25 }, "<")
+        .to(".pre-col", { yPercent: -101, duration: 1.0, stagger: 0.075, ease: "power4.inOut" }, "-=0.05")
+        .to(".pre-col-flash", { yPercent: -101, duration: 1.0, stagger: 0.075, ease: "power4.inOut" }, "<");
     }, root);
 
     return () => ctx.revert();
@@ -90,18 +126,35 @@ export function Preloader({ onDone }: { onDone: () => void }) {
   return (
     <div className="preloader" ref={root} aria-hidden="true">
       {COLS.map((i) => (
-        <div key={i} className="pre-col" />
+        <div key={i} className="pre-col">
+          <div className="pre-col-flash" />
+        </div>
       ))}
       <div className="pre-ui">
-        <p className="serif pre-label">preparando o palco</p>
+        <svg className="pre-star" viewBox="0 0 100 100" aria-hidden="true">
+          <g stroke="currentColor" strokeWidth="7" strokeLinecap="round">
+            <line x1="50" y1="14" x2="50" y2="86" />
+            <line x1="21" y1="31" x2="79" y2="69" />
+            <line x1="21" y1="69" x2="79" y2="31" />
+          </g>
+        </svg>
+
         <div className="pre-name">
-          {NAME.split("").map((c, i) => (
-            <span key={i} className={`pre-char${c === " " ? " pre-space" : ""}`}>
-              {c === " " ? "\u00A0" : c}
+          {c.preloader.name.split("").map((ch, i) => (
+            <span
+              key={i}
+              className={`pre-char${ch === " " ? " pre-space" : ""}`}
+              data-ch={ch}
+            >
+              {ch === " " ? "\u00A0" : "·"}
             </span>
           ))}
         </div>
-        <p className="serif pre-sub">engenharia de software &amp; interfaces vivas</p>
+
+        <p className="serif pre-sub">
+          <b>{words[0]}</b>
+        </p>
+
         <div className="pre-count">
           <b>0</b>
           <span>%</span>

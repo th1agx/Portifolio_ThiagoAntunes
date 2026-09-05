@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { PROJECTS } from "../data/content";
+import { useContent } from "../i18n";
 import { ProjectPoster } from "./ProjectPoster";
 import { Magnetic } from "./Magnetic";
 
@@ -10,6 +10,8 @@ import { Magnetic } from "./Magnetic";
  * no meio da página. Pôster lime sólido, tipografia preta.
  */
 export function Showcase() {
+  const c = useContent();
+  const project = c.projects[0];
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -24,7 +26,7 @@ export function Showcase() {
   const copyO = useTransform(scrollYProgress, [0.38, 0.5], [0, 1]);
   const copyY = useTransform(scrollYProgress, [0.38, 0.5], [40, 0]);
 
-  const project = PROJECTS[0];
+  
 
   return (
     <section ref={ref} className="showcase" aria-label="Projeto em destaque">
@@ -41,20 +43,18 @@ export function Showcase() {
             className="serif"
             style={reduce ? undefined : { opacity: headO, y: headY }}
           >
-            o destaque
+            {c.showcase.kicker}
           </motion.p>
           <motion.h3
             className="showcase-title"
             style={reduce ? undefined : { opacity: headO, y: headY }}
           >
-            Dev Guard Skill
+            {project.title}
           </motion.h3>
           <motion.div style={reduce ? undefined : { opacity: copyO, y: copyY }}>
             <p className="showcase-copy">
-              Uma skill de disciplina de desenvolvimento para agentes de IA: SDD,
-              planejamento, testes, smoke &amp; stress tests e entrega baseada em
-              evidências. <span className="serif">IA com método</span> — não com
-              achismo.
+              {c.showcase.copyPre} <span className="serif">{c.showcase.copyHL}</span>
+              {c.showcase.copyPos}
             </p>
             {project.link && (
               <Magnetic strength={0.25}>

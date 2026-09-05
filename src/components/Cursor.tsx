@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useVelocity } from "motion/react";
+import { useContent } from "../i18n";
 
 type CursorMode = "default" | "link" | "view";
 
@@ -14,6 +15,7 @@ export function Cursor() {
       typeof window !== "undefined" &&
       window.matchMedia("(hover: hover) and (pointer: fine)").matches
   );
+  const c = useContent();
   const [mode, setMode] = useState<CursorMode>("default");
   const [visible, setVisible] = useState(false);
 
@@ -83,7 +85,7 @@ export function Cursor() {
           className={`cursor-ring ${mode}`}
           style={{ rotate: angle, scaleX, scaleY }}
         >
-          <span className="cursor-label">ver</span>
+          <span className="cursor-label">{c.misc.view}</span>
         </motion.div>
       </motion.div>
     </>

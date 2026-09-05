@@ -2,9 +2,11 @@ import { useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, useVelocity } from "motion/react";
 import { EASE } from "../lib/utils";
-import { PROJECTS } from "../data/content";
 import type { Project } from "../data/content";
-import { Reveal, WordsInView } from "./Reveal";
+import { useContent } from "../i18n";
+import { WordsInView } from "./Reveal";
+import { GsapIn } from "./GsapIn";
+import { Parallax } from "./Parallax";
 import { ProjectPoster } from "./ProjectPoster";
 
 function Row({
@@ -52,6 +54,8 @@ function Row({
  * seu pôster inline. O título inteiro é o link — sem setas.
  */
 export function Works() {
+  const c = useContent();
+  const projects = c.projects;
   const reduce = useReducedMotion();
   const [active, setActive] = useState<number | null>(null);
   const [canHover] = useState(
@@ -79,19 +83,21 @@ export function Works() {
 
   return (
     <section className="section" id="trabalhos" aria-label="Trabalhos">
-      <h2 className="sec-title">
-        <WordsInView>Trabalhos</WordsInView>
-      </h2>
+      <Parallax dir="right" speed={0.9}>
+        <h2 className="sec-title">
+          <WordsInView>{c.sections.worksTitle}</WordsInView>
+        </h2>
+      </Parallax>
 
       <div
         className="works-list"
         onPointerMove={usePreview ? onMove : undefined}
         onPointerLeave={usePreview ? () => setActive(null) : undefined}
       >
-        {PROJECTS.map((p, i) => (
-          <Reveal key={p.id} delay={i * 0.05} y={36}>
+        {projects.map((p, i) => (
+          <GsapIn key={p.id} preset={i % 2 ? "slideR" : "wipe"}>
             <Row project={p} onEnter={() => setActive(i)} preview={!usePreview} />
-          </Reveal>
+          </GsapIn>
         ))}
       </div>
 
@@ -103,7 +109,7 @@ export function Works() {
           transition={{ duration: 0.45, ease: EASE }}
           aria-hidden="true"
         >
-          {PROJECTS.map((p, i) => (
+          {projects.map((p, i) => (
             <motion.div
               key={p.id}
               className="work-preview-item"
