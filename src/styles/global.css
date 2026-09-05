@@ -547,6 +547,77 @@ html.menu-open .nav-burger .l2 {
   display: block;
 }
 
+.hero-tagline {
+  font-size: clamp(1.5rem, 3.6vw, 3.2rem);
+  line-height: 1.18;
+  color: var(--dim);
+  max-width: 30ch;
+}
+
+.hero-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-top: clamp(0.8rem, 2vh, 1.6rem);
+}
+
+.hero-role-line {
+  font-weight: 450;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.45;
+  max-width: 44ch;
+}
+
+.hero-cycle {
+  margin-top: 0.55rem;
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+}
+
+.hero-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: 1rem;
+  color: var(--dim);
+}
+
+.hero-sub .hero-scroll {
+  align-self: flex-end;
+}
+
+.scroll-track {
+  width: 1px;
+  height: 52px;
+  background: var(--hair);
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.scroll-dot {
+  position: absolute;
+  left: 0;
+  top: -30%;
+  width: 1px;
+  height: 30%;
+  background: var(--lime);
+  animation: scrollDot 1.8s var(--ease) infinite;
+}
+
+@keyframes scrollDot {
+  0% {
+    top: -30%;
+  }
+  70%,
+  100% {
+    top: 110%;
+  }
+}
+
 /* ----------------------------- marquee ---------------------------- */
 .marquee {
   border-top: 1px solid rgba(239, 237, 230, 0.18);
