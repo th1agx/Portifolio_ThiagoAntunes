@@ -1,65 +1,63 @@
 import { useRef } from "react";
 import type { ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 /**
+<<<<<<< HEAD
  * Painel-onda: gruda no topo e entra VARRENDO a seção anterior com uma
- * borda ondulada (SVG senoidal que ondula sem parar enquanto sobe).
- * O painel seguinte cobre o anterior — transição líquida, nunca fade.
+ * borda ondulada (SVG senoidal que ondula sem parar). Sem translateY —
+ * a onda fica visível do começo ao fim da subida, varrendo a tela toda.
+=======
+ * Cápsula: o painel novo entra reduzido (0.62) como uma pílula
+ * arredondada — a seção anterior fica visível ao redor, moldura da
+ * prévia — e cresce até cobrir a tela. Sombra profunda dá o relevo.
+ * A mesma linguagem do take do showcase, agora nas seções.
+>>>>>>> develop
  */
-
-const WAVE_PATH =
-  "M0,70 C260,148 520,2 760,70 C1000,138 1240,6 1440,70 L1440,0 L0,0 Z";
-
-function Wave({ fill }: { fill: string }) {
-  return (
-    <div className="wave" aria-hidden="true">
-      <div className="wave-track">
-        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
-          <path d={WAVE_PATH} fill={fill} />
-        </svg>
-        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
-          <path d={WAVE_PATH} fill={fill} />
-        </svg>
-      </div>
-    </div>
-  );
-}
-
-export function WavePanel({
+export function CapsulePanel({
   children,
   fill,
   className,
   z = 1,
 }: {
   children: ReactNode;
-  /** cor do painel e da onda */
+  /** cor do painel */
   fill: string;
   /** classe de tinta (panel-chalk | panel-graphite | panel-lime) */
   className?: string;
   z?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+<<<<<<< HEAD
+=======
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "start 0.12"],
+    offset: ["start end", "start start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["30vh", "0vh"]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.62, 1]);
+  const radius = useTransform(scrollYProgress, [0, 1], ["14vw", "0vw"]);
 
+>>>>>>> develop
   return (
     <div
       ref={ref}
       className={`panel-wrap ${className ?? ""}`}
       style={{ zIndex: z }}
     >
-      <motion.div
-        className="panel"
-        style={{ background: fill, ...(reduce ? {} : { y }) }}
-      >
+<<<<<<< HEAD
+      <div className="panel" style={{ background: fill }}>
         <Wave fill={fill} />
+=======
+      <motion.div
+        className="panel capsule"
+        style={{
+          background: fill,
+          ...(reduce ? {} : { scale, borderRadius: radius }),
+        }}
+      >
+>>>>>>> develop
         {children}
-      </motion.div>
+      </div>
     </div>
   );
 }

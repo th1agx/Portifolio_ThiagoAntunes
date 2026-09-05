@@ -462,10 +462,9 @@ html.menu-open .nav-burger .l2 {
 /* badge circular orbitando um asterisco — o desenho vivo do cabeçalho */
 .orbit-badge {
   position: absolute;
-  top: 50%;
-  right: clamp(2rem, 10vw, 11rem);
-  translate: 0 -50%;
-  width: clamp(150px, 20vw, 260px);
+  top: 42%;
+  right: clamp(2rem, 9vw, 10rem);
+  width: clamp(140px, 18vw, 240px);
   aspect-ratio: 1;
   z-index: 1;
   color: var(--ink-light);
@@ -511,7 +510,7 @@ html.menu-open .nav-burger .l2 {
 .hero-title {
   font-weight: 750;
   letter-spacing: -0.045em;
-  font-size: clamp(3.8rem, 15.5vw, 14.5rem);
+  font-size: clamp(3.5rem, 14vw, 13rem);
   line-height: 0.95;
   display: flex;
   flex-direction: column;
@@ -520,6 +519,86 @@ html.menu-open .nav-burger .l2 {
 
 .hero-title .line {
   display: block;
+}
+
+.hero-tagline {
+  font-size: clamp(1.5rem, 3.6vw, 3.2rem);
+  line-height: 1.18;
+  color: var(--dim);
+  max-width: 30ch;
+}
+
+.hero-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-top: clamp(0.8rem, 2vh, 1.6rem);
+}
+
+.hero-role-line {
+  font-weight: 450;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.45;
+  max-width: 44ch;
+}
+
+.hero-cycle {
+  margin-top: 0.55rem;
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+}
+
+.hero-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.1rem;
+}
+
+.hero-facts {
+  font-size: 0.95rem;
+  color: var(--dim);
+  text-align: right;
+}
+
+.hero-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: 1rem;
+  color: var(--dim);
+}
+
+.scroll-track {
+  width: 1px;
+  height: 52px;
+  background: var(--hair);
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.scroll-dot {
+  position: absolute;
+  left: 0;
+  top: -30%;
+  width: 1px;
+  height: 30%;
+  background: var(--lime);
+  animation: scrollDot 1.8s var(--ease) infinite;
+}
+
+@keyframes scrollDot {
+  0% {
+    top: -30%;
+  }
+  70%,
+  100% {
+    top: 110%;
+  }
 }
 
 /* ----------------------------- marquee ---------------------------- */
@@ -585,7 +664,15 @@ html.menu-open .nav-burger .l2 {
   will-change: transform;
 }
 
-/* tinta por painel (fundo vem inline do WavePanel) */
+/* cápsula: entra reduzida e arredondada — a seção anterior vira
+   moldura ao redor — e cresce até cobrir; sombra profunda dá relevo */
+.panel.capsule {
+  box-shadow:
+    0 -30px 120px rgba(0, 0, 0, 0.45),
+    0 -8px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* tinta por painel (fundo vem inline do CapsulePanel) */
 .panel-chalk {
   color: var(--ink-dark);
   --dim: rgba(20, 20, 16, 0.64);
@@ -607,38 +694,7 @@ html.menu-open .nav-burger .l2 {
   --acc: var(--ink-dark);
 }
 
-/* a onda: fica ACIMA do painel (bottom: 100%), então some da tela
-   quando o painel gruda — durante a entrada ela varre a seção */
-.wave {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 100%;
-  height: clamp(70px, 12vh, 140px);
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.wave-track {
-  display: flex;
-  width: 200%;
-  height: 100%;
-  animation: waveDrift 16s linear infinite;
-}
-
-.wave svg {
-  width: 50%;
-  height: 100%;
-  flex: none;
-}
-
-@keyframes waveDrift {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* respiro extra no primeiro conteúdo — a onda ainda está varrendo
+/* respiro extra no primeiro conteúdo — a cápsula ainda está crescendo
    quando o painel gruda, então o topo precisa de folga */
 .panel > .section:first-of-type {
   padding-top: clamp(9rem, 22vh, 15rem);
@@ -1186,9 +1242,17 @@ html.menu-open .nav-burger .l2 {
   }
 
   .orbit-badge {
-    top: 38%;
+    top: 30%;
     right: var(--pad);
-    width: clamp(120px, 28vw, 180px);
+    width: clamp(110px, 24vw, 170px);
+  }
+
+  .hero-side {
+    align-items: flex-start;
+  }
+
+  .hero-facts {
+    text-align: left;
   }
 
   .work-row {
@@ -1215,8 +1279,9 @@ html.menu-open .nav-burger .l2 {
 
 /* ------------------------ movimento reduzido ---------------------- */
 @media (prefers-reduced-motion: reduce) {
+  .scroll-dot,
   .orbit-text,
-  .wave-track {
+  .scroll-dot {
     animation: none !important;
   }
 
