@@ -1,6 +1,15 @@
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
 import { EASE } from "../lib/utils";
 import { LineMask } from "./Reveal";
+import { ScrambleCycle } from "./ScrambleText";
+
+const CYCLE = [
+  "desenvolvimento fullstack",
+  "IA generativa & agentes",
+  "ERP & sistemas web",
+  "prompt engineering",
+  "automações & scripts",
+];
 
 /** Badge circular: texto orbitando um asterisco, girando sem parar. */
 function OrbitBadge() {
@@ -79,6 +88,36 @@ export function Hero({ ready }: { ready: boolean }) {
         >
           engenharia de software <span className="green">&</span> interfaces vivas
         </motion.p>
+
+        <div className="hero-sub">
+          <motion.div
+            className="hero-role"
+            initial={{ opacity: 0, y: 18 }}
+            animate={ready ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: base + 0.42, ease: EASE }}
+          >
+            <p className="hero-role-line">
+              Engenheiro de software júnior no <span className="green">3D Lab</span> — fullstack,
+              IA generativa e movimento por toda interface.
+            </p>
+            <p className="hero-cycle green">
+              <ScrambleCycle phrases={CYCLE} />
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="hero-scroll serif"
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={ready ? { opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: base + 0.55 }}
+          >
+            <span className="scroll-track">
+              <span className="scroll-dot" />
+            </span>
+            role para conhecer
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );
