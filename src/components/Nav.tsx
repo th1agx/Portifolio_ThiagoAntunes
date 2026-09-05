@@ -3,17 +3,11 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { EASE } from "../lib/utils";
 import { getLenis, scrollToSection } from "../lib/scroll";
 import { SOCIALS } from "../data/content";
+import { useLang } from "../i18n";
 import { ScrambleText } from "./ScrambleText";
 
-const LINKS = [
-  { id: "#sobre", label: "Sobre" },
-  { id: "#trabalhos", label: "Trabalhos" },
-  { id: "#experiencia", label: "Experiência" },
-  { id: "#stack", label: "Arsenal" },
-  { id: "#contato", label: "Contato" },
-];
-
 export function Nav({ ready }: { ready: boolean }) {
+  const { lang, setLang, c } = useLang();
   const [open, setOpen] = useState(false);
   const [onLight, setOnLight] = useState(false);
 
@@ -62,12 +56,26 @@ export function Nav({ ready }: { ready: boolean }) {
         </button>
 
         <nav className="nav-links" aria-label="Navegação principal">
-          {LINKS.map((l) => (
+          {c.nav.links.map((l) => (
             <button key={l.id} className="nav-link" onClick={() => go(l.id)} data-cursor="link">
               <ScrambleText text={l.label} />
             </button>
           ))}
         </nav>
+
+        <div className="lang-toggle" role="group" aria-label="Idioma / Language">
+          {(["pt", "en"] as const).map((l) => (
+            <button
+              key={l}
+              className={`lang-btn ${lang === l ? "on" : ""}`}
+              onClick={() => setLang(l)}
+              aria-pressed={lang === l}
+              data-cursor="link"
+            >
+              {l === "pt" ? "PT" : "EN"}
+            </button>
+          ))}
+        </div>
 
         <button
           className="nav-burger"
@@ -90,7 +98,7 @@ export function Nav({ ready }: { ready: boolean }) {
             transition={{ duration: 0.55, ease: EASE }}
           >
             <nav className="menu-links" aria-label="Menu">
-              {LINKS.map((l, i) => (
+              {c.nav.links.map((l, i) => (
                 <div key={l.id} className="menu-line">
                   <motion.button
                     className="menu-link"
@@ -118,7 +126,20 @@ export function Nav({ ready }: { ready: boolean }) {
                   {s.label}
                 </a>
               ))}
-              <span>Belo Horizonte — MG</span>
+              <span>{c.misc.menuCity}</span>
+              <div className="lang-toggle mobile">
+                {(["pt", "en"] as const).map((l) => (
+                  <button
+                    key={l}
+                    className={`lang-btn ${lang === l ? "on" : ""}`}
+                    onClick={() => setLang(l)}
+                    aria-pressed={lang === l}
+                    data-cursor="link"
+                  >
+                    {l === "pt" ? "PT" : "EN"}
+                  </button>
+                ))}
+              </div>
             </motion.div>
           </motion.div>
         )}

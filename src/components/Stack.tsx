@@ -1,5 +1,7 @@
-import { STACK_GROUPS } from "../data/content";
-import { Reveal, WordsInView } from "./Reveal";
+import { useContent } from "../i18n";
+import { WordsInView } from "./Reveal";
+import { GsapIn } from "./GsapIn";
+import { Parallax } from "./Parallax";
 import { ScrambleText } from "./ScrambleText";
 
 /**
@@ -7,15 +9,18 @@ import { ScrambleText } from "./ScrambleText";
  * texto corrido — sem chips, sem caixas, sem separadores enfeitados.
  */
 export function Stack() {
+  const c = useContent();
   return (
     <section className="section" id="stack" aria-label="Stack e ferramentas">
-      <h2 className="sec-title">
-        <WordsInView>Arsenal</WordsInView>
-      </h2>
+      <Parallax dir="right" speed={0.9}>
+        <h2 className="sec-title">
+          <WordsInView>{c.sections.stackTitle}</WordsInView>
+        </h2>
+      </Parallax>
 
       <div className="stack-list">
-        {STACK_GROUPS.map((g, i) => (
-          <Reveal key={g.label} delay={i * 0.04} y={26} className="stack-group">
+        {c.stack.map((g, i) => (
+          <GsapIn key={g.label} preset="drop" delay={i * 0.05} className="stack-group">
             <p className="serif stack-label">
               {g.label}
               {g.note ? <span className="stack-note"> — {g.note}</span> : null}
@@ -30,7 +35,7 @@ export function Stack() {
                 </span>
               ))}
             </p>
-          </Reveal>
+          </GsapIn>
         ))}
       </div>
     </section>

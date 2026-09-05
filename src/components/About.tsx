@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { ABOUT_PARAS } from "../data/content";
 import type { Segment } from "../data/content";
+import { useContent } from "../i18n";
 import { EASE } from "../lib/utils";
-import { Reveal, WordsInView } from "./Reveal";
+import { WordsInView } from "./Reveal";
+import { GsapIn } from "./GsapIn";
+import { Parallax } from "./Parallax";
 
 /**
  * Palavra que acende (0.3 → 1) assim que entra na viewport —
@@ -33,9 +35,10 @@ function Word({ w, em, i }: { w: string; em?: Segment["em"]; i: number }) {
 
 /** Quem eu sou — parágrafos grandes com reveal palavra por palavra. */
 export function About() {
+  const c = useContent();
   const paras = useMemo(
     () =>
-      ABOUT_PARAS.map((segs) =>
+      c.about.paras.map((segs) =>
         segs.flatMap((s: Segment) =>
           s.text
             .split(" ")
@@ -43,30 +46,36 @@ export function About() {
             .map((w) => ({ w, em: s.em }))
         )
       ),
-    []
+    [c]
   );
 
   return (
     <section className="section" id="sobre" aria-label="Sobre">
-      <h2 className="sec-title">
-        <WordsInView>Além do código</WordsInView>
-      </h2>
+      <Parallax dir="left" speed={0.9}>
+        <h2 className="sec-title">
+          <WordsInView>{c.sections.aboutTitle}</WordsInView>
+        </h2>
+      </Parallax>
 
       <div className="about-body">
         {paras.map((words, pi) => (
-          <p key={pi} className="w-para">
+          <GsapIn key={pi} preset={pi % 2 ? "slideR" : "skew"}>
+          <p className="w-para">
             {words.map((word, wi) => (
               <Word key={`${pi}-${wi}`} w={word.w} em={word.em} i={wi} />
             ))}
           </p>
+          </GsapIn>
         ))}
 
-        <Reveal className="about-foot" y={24}>
-          <p className="serif">quatro anos construindo software — e a curva só sobe.</p>
+        <GsapIn preset="wipe">
+        <div className="about-foot">
+          <p className="serif">{c.about.footSerif}</p>
           <p className="current-role">
-            Engenheiro de Software Júnior — <span className="green">3D Lab</span>, desde 06.2026
+            {c.about.rolePre} <span className="green">{c.about.roleHL}</span>{c.about.rolePos}
           </p>
-        </Reveal>
+        </div>
+        </GsapIn>
       </div>
     </section>
   );
