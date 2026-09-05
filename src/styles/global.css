@@ -1322,3 +1322,94 @@ html.menu-open .nav-burger .l2 {
     0 -30px 120px rgba(0, 0, 0, 0.5),
     0 -8px 40px rgba(0, 0, 0, 0.32);
 }
+
+/* ---------------- animações ricas (v7) ---------------------------- */
+/* títulos por palavra: as máscaras fluem inline */
+.words-in {
+  display: inline;
+}
+
+.wi-mask {
+  display: inline-block;
+}
+
+/* works: hairline acende em lime varrendo da esquerda */
+.work-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 100%;
+  height: 1px;
+  background: var(--acc);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s var(--ease);
+}
+
+@media (hover: hover) {
+  .work-row:hover::after {
+    transform: scaleX(1);
+  }
+
+  .work-row:hover .work-sub {
+    transform: translateX(clamp(10px, 1.6vw, 22px));
+    color: var(--acc);
+  }
+
+  .work-row:hover .work-year {
+    color: var(--acc);
+  }
+}
+
+.work-sub {
+  transition: transform 0.5s var(--ease), color 0.35s ease;
+}
+
+.work-year {
+  transition: color 0.35s ease;
+}
+
+/* experiência e formação: indent + hairline lime no hover */
+.xp-row,
+.degree {
+  position: relative;
+  transition: transform 0.45s var(--ease);
+}
+
+.xp-row::before,
+.degree::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 100%;
+  height: 1px;
+  background: var(--acc);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s var(--ease);
+}
+
+@media (hover: hover) {
+  .xp-row:hover,
+  .degree:hover {
+    transform: translateX(clamp(6px, 1vw, 14px));
+  }
+
+  .xp-row:hover::before,
+  .degree:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+/* nome do hero: o peso da variable font cresce no hover */
+.hero-title .mask-inner {
+  transition: font-weight 0.45s ease, color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .hero-title:hover .mask-inner {
+    font-weight: 800;
+  }
+}

@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { EASE } from "../lib/utils";
 import { getLenis, scrollToSection } from "../lib/scroll";
 import { SOCIALS } from "../data/content";
+import { ScrambleText } from "./ScrambleText";
 
 const LINKS = [
   { id: "#sobre", label: "Sobre" },
@@ -63,7 +64,7 @@ export function Nav({ ready }: { ready: boolean }) {
         <nav className="nav-links" aria-label="Navegação principal">
           {LINKS.map((l) => (
             <button key={l.id} className="nav-link" onClick={() => go(l.id)} data-cursor="link">
-              {l.label}
+              <ScrambleText text={l.label} />
             </button>
           ))}
         </nav>
