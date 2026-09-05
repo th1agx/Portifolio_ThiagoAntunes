@@ -1,5 +1,15 @@
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
+import { EASE } from "../lib/utils";
 import { LineMask } from "./Reveal";
+import { ScrambleCycle } from "./ScrambleText";
+
+const CYCLE = [
+  "desenvolvimento fullstack",
+  "IA generativa & agentes",
+  "ERP & sistemas web",
+  "prompt engineering",
+  "automações & scripts",
+];
 
 /** Badge circular: texto orbitando um asterisco, girando sem parar. */
 function OrbitBadge() {
@@ -36,8 +46,8 @@ function OrbitBadge() {
 }
 
 /**
- * Hero cinético em grafite: nome gigante + badge orbital.
- * Só o essencial — o resto é o desenho girando.
+ * Hero cinético em grafite: nome gigante, tagline serif, badge orbital
+ * e a linha de especialidades ciclando — cheio, mas sem ruído.
  */
 export function Hero({ ready }: { ready: boolean }) {
   const reduce = useReducedMotion();
@@ -69,6 +79,50 @@ export function Hero({ ready }: { ready: boolean }) {
             </LineMask>
           </span>
         </motion.h1>
+
+        <motion.p
+          className="hero-tagline serif"
+          initial={{ opacity: 0, y: 22 }}
+          animate={ready ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, delay: base + 0.3, ease: EASE }}
+        >
+          engenharia de software <span className="green">&</span> interfaces vivas
+        </motion.p>
+<<<<<<< HEAD
+
+        <div className="hero-sub">
+          <motion.div
+            className="hero-role"
+            initial={{ opacity: 0, y: 18 }}
+            animate={ready ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: base + 0.42, ease: EASE }}
+          >
+            <p className="hero-role-line">
+              Engenheiro de software júnior no <span className="green">3D Lab</span> — fullstack,
+              IA generativa e movimento por toda interface.
+            </p>
+            <p className="hero-cycle green">
+              <ScrambleCycle phrases={CYCLE} />
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="hero-side"
+            initial={{ opacity: 0 }}
+            animate={ready ? { opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: base + 0.55 }}
+          >
+            <p className="hero-facts">codando desde 2022 · 9 certificações · aberto a projetos</p>
+            <div className="hero-scroll serif" aria-hidden="true">
+              <span className="scroll-track">
+                <span className="scroll-dot" />
+              </span>
+              role para conhecer
+            </div>
+          </motion.div>
+        </div>
+=======
+>>>>>>> develop
       </motion.div>
     </section>
   );
