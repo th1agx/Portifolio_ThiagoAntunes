@@ -487,9 +487,10 @@ html.menu-open .nav-burger .l2 {
 /* badge circular orbitando um asterisco — o desenho vivo do cabeçalho */
 .orbit-badge {
   position: absolute;
-  top: 42%;
-  right: clamp(2rem, 9vw, 10rem);
-  width: clamp(140px, 18vw, 240px);
+  top: 50%;
+  right: clamp(2rem, 10vw, 11rem);
+  translate: 0 -50%;
+  width: clamp(150px, 20vw, 260px);
   aspect-ratio: 1;
   z-index: 1;
   color: var(--ink-light);
@@ -535,7 +536,7 @@ html.menu-open .nav-burger .l2 {
 .hero-title {
   font-weight: 750;
   letter-spacing: -0.045em;
-  font-size: clamp(3.5rem, 14vw, 13rem);
+  font-size: clamp(3.8rem, 15.5vw, 14.5rem);
   line-height: 0.95;
   display: flex;
   flex-direction: column;
@@ -575,19 +576,6 @@ html.menu-open .nav-burger .l2 {
   font-size: clamp(0.95rem, 1.4vw, 1.15rem);
 }
 
-.hero-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1.1rem;
-}
-
-.hero-facts {
-  font-size: 0.95rem;
-  color: var(--dim);
-  text-align: right;
-}
-
 .hero-scroll {
   display: flex;
   flex-direction: column;
@@ -595,6 +583,10 @@ html.menu-open .nav-burger .l2 {
   gap: 0.9rem;
   font-size: 1rem;
   color: var(--dim);
+}
+
+.hero-sub .hero-scroll {
+  align-self: flex-end;
 }
 
 .scroll-track {
@@ -1268,17 +1260,9 @@ html.menu-open .nav-burger .l2 {
   }
 
   .orbit-badge {
-    top: 30%;
+    top: 38%;
     right: var(--pad);
-    width: clamp(110px, 24vw, 170px);
-  }
-
-  .hero-side {
-    align-items: flex-start;
-  }
-
-  .hero-facts {
-    text-align: left;
+    width: clamp(120px, 28vw, 180px);
   }
 
   .work-row {
@@ -1305,7 +1289,6 @@ html.menu-open .nav-burger .l2 {
 
 /* ------------------------ movimento reduzido ---------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .scroll-dot,
   .orbit-text,
   .scroll-dot {
     animation: none !important;

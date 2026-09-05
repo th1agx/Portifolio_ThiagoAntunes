@@ -46,8 +46,8 @@ function OrbitBadge() {
 }
 
 /**
- * Hero cinético em grafite: nome gigante, tagline serif, badge orbital
- * e a linha de especialidades ciclando — cheio, mas sem ruído.
+ * Hero cinético em grafite: nome gigante + badge orbital.
+ * Só o essencial — o resto é o desenho girando.
  */
 export function Hero({ ready }: { ready: boolean }) {
   const reduce = useReducedMotion();
@@ -88,7 +88,6 @@ export function Hero({ ready }: { ready: boolean }) {
         >
           engenharia de software <span className="green">&</span> interfaces vivas
         </motion.p>
-<<<<<<< HEAD
 
         <div className="hero-sub">
           <motion.div
@@ -107,22 +106,18 @@ export function Hero({ ready }: { ready: boolean }) {
           </motion.div>
 
           <motion.div
-            className="hero-side"
+            className="hero-scroll serif"
+            aria-hidden="true"
             initial={{ opacity: 0 }}
             animate={ready ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: base + 0.55 }}
           >
-            <p className="hero-facts">codando desde 2022 · 9 certificações · aberto a projetos</p>
-            <div className="hero-scroll serif" aria-hidden="true">
-              <span className="scroll-track">
-                <span className="scroll-dot" />
-              </span>
-              role para conhecer
-            </div>
+            <span className="scroll-track">
+              <span className="scroll-dot" />
+            </span>
+            role para conhecer
           </motion.div>
         </div>
-=======
->>>>>>> develop
       </motion.div>
     </section>
   );
