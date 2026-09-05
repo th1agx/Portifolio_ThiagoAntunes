@@ -23,7 +23,7 @@ export function Nav({ ready }: { ready: boolean }) {
   // (via pipeline do motion, que enxerga o Lenis)
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (y) => {
-    const probe = y + window.innerHeight * 0.08;
+    const probe = y + 2;
     const wraps = [...document.querySelectorAll<HTMLElement>(".panel-wrap")];
     let current: HTMLElement | null = null;
     for (const w of wraps) {
