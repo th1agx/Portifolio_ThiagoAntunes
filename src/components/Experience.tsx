@@ -1,7 +1,6 @@
 import { useContent } from "../i18n";
 import { WordsInView } from "./Reveal";
 import { GsapIn } from "./GsapIn";
-import { Parallax } from "./Parallax";
 
 /**
  * Trajetória como texto corrido: período em serif itálico à esquerda,
@@ -11,11 +10,9 @@ export function Experience() {
   const c = useContent();
   return (
     <section className="section" id="experiencia" aria-label="Experiência">
-      <Parallax dir="left" speed={0.9}>
-        <h2 className="sec-title">
+      <h2 className="sec-title">
           <WordsInView>{c.sections.xpTitle}</WordsInView>
         </h2>
-      </Parallax>
 
       <div className="xp-list">
         {c.experience.map((xp, i) => (

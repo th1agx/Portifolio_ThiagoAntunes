@@ -5,7 +5,6 @@ import { useContent } from "../i18n";
 import { EASE } from "../lib/utils";
 import { WordsInView } from "./Reveal";
 import { GsapIn } from "./GsapIn";
-import { Parallax } from "./Parallax";
 
 /**
  * Palavra que acende (0.3 → 1) assim que entra na viewport —
@@ -51,11 +50,9 @@ export function About() {
 
   return (
     <section className="section" id="sobre" aria-label="Sobre">
-      <Parallax dir="left" speed={0.9}>
-        <h2 className="sec-title">
+      <h2 className="sec-title">
           <WordsInView>{c.sections.aboutTitle}</WordsInView>
         </h2>
-      </Parallax>
 
       <div className="about-body">
         {paras.map((words, pi) => (

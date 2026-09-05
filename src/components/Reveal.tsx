@@ -95,19 +95,17 @@ export function WordsInView({ children, className }: LineInViewProps) {
   useEffect(() => {
     if (reduce || !ref.current) return;
     const ctx = gsap.context(() => {
-      const split = new SplitText(ref.current!, { type: "words,chars" });
-      gsap.set(split.chars, { transformOrigin: "50% 100%" });
+      const split = new SplitText(ref.current!, { type: "words" });
       gsap.fromTo(
-        split.chars,
-        { yPercent: 120, rotateX: -75, opacity: 0 },
+        split.words,
+        { y: 26, opacity: 0 },
         {
-          yPercent: 0,
-          rotateX: 0,
+          y: 0,
           opacity: 1,
-          duration: 0.85,
+          duration: 0.8,
           ease: "power3.out",
-          stagger: { each: 0.02, from: "start" },
-          scrollTrigger: { trigger: ref.current, start: "top 88%", once: true },
+          stagger: 0.07,
+          scrollTrigger: { trigger: ref.current, start: "top 90%", once: true },
         }
       );
     }, ref);

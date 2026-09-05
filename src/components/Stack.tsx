@@ -1,7 +1,6 @@
 import { useContent } from "../i18n";
 import { WordsInView } from "./Reveal";
 import { GsapIn } from "./GsapIn";
-import { Parallax } from "./Parallax";
 import { ScrambleText } from "./ScrambleText";
 
 /**
@@ -12,11 +11,9 @@ export function Stack() {
   const c = useContent();
   return (
     <section className="section" id="stack" aria-label="Stack e ferramentas">
-      <Parallax dir="right" speed={0.9}>
-        <h2 className="sec-title">
+      <h2 className="sec-title">
           <WordsInView>{c.sections.stackTitle}</WordsInView>
         </h2>
-      </Parallax>
 
       <div className="stack-list">
         {c.stack.map((g, i) => (
