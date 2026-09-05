@@ -1413,3 +1413,56 @@ html.menu-open .nav-burger .l2 {
     font-weight: 800;
   }
 }
+
+/* ---------------- preloader cinematográfico (GSAP) --------------- */
+.pre-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: var(--ink-light);
+}
+
+.pre-name {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  translate: -50% -50%;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  font-size: clamp(2.2rem, 7vw, 6rem);
+  white-space: nowrap;
+  perspective: 700px;
+}
+
+.pre-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+.pre-sub {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  translate: -50% 0;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: rgba(239, 237, 230, 0.66);
+  white-space: nowrap;
+}
+
+.pre-count b {
+  font-weight: 700;
+}
+
+/* badge orbital: wrapper para entrada elástica GSAP */
+.orbit-badge-wrap {
+  position: absolute;
+  top: 42%;
+  right: clamp(2rem, 9vw, 10rem);
+  width: clamp(140px, 18vw, 240px);
+  z-index: 1;
+}
+
+.orbit-badge-wrap .orbit-badge {
+  position: static;
+  width: 100%;
+}
