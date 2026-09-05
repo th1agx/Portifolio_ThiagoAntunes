@@ -1,61 +1,45 @@
-import { useMemo, useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import type { MotionValue } from "motion/react";
+import { useMemo } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { ABOUT_PARAS } from "../data/content";
 import type { Segment } from "../data/content";
+import { EASE } from "../lib/utils";
 import { LineInView, Reveal } from "./Reveal";
 
-type WordData = { w: string; em?: Segment["em"]; pi: number; wi: number };
-
-function Word({
-  word,
-  progress,
-  range,
-}: {
-  word: WordData;
-  progress: MotionValue<number>;
-  range: [number, number];
-}) {
-  const opacity = useTransform(progress, range, [0.42, 1]);
-  const cls = word.em === "serif" ? "w-serif" : word.em === "green" ? "w-green" : undefined;
+/**
+ * Palavra que acende (0.3 → 1) assim que entra na viewport —
+ * reveal por palavra, à prova de painéis sticky: nunca fica presa
+ * meio-apagada.
+ */
+function Word({ w, em }: { w: string; em?: Segment["em"] }) {
+  const reduce = useReducedMotion();
+  const cls = em === "serif" ? "w-serif" : em === "green" ? "w-green" : undefined;
   return (
-    <motion.span className={cls} style={{ opacity }}>
-      {word.w}
+    <motion.span
+      className={cls}
+      initial={reduce ? { opacity: 1 } : { opacity: 0.3 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+      transition={{ duration: 0.55, ease: EASE }}
+    >
+      {w}{" "}
     </motion.span>
   );
 }
 
-/**
- * Texto revelado palavra por palavra conforme o scroll —
- * a leitura acompanha o dedo/mouse do visitante.
- */
+/** Quem eu sou — parágrafos grandes com reveal palavra por palavra. */
 export function About() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.85", "end 0.45"],
-  });
-
   const paras = useMemo(
     () =>
-      ABOUT_PARAS.map((segs, pi) => ({
-        segs,
-        words: segs
-          .flatMap((s: Segment) =>
-            s.text
-              .split(" ")
-              .filter(Boolean)
-              .map((w) => ({ w, em: s.em }))
-          )
-          .map((w, wi) => ({ ...w, pi, wi })),
-      })),
+      ABOUT_PARAS.map((segs) =>
+        segs.flatMap((s: Segment) =>
+          s.text
+            .split(" ")
+            .filter(Boolean)
+            .map((w) => ({ w, em: s.em }))
+        )
+      ),
     []
   );
-  const total = useMemo(() => paras.reduce((n, p) => n + p.words.length, 0), [paras]);
-  const rangeFor = (i: number): [number, number] => [i / total, Math.min(1, (i + 1.6) / total)];
-
-  let flat = 0;
 
   return (
     <section className="section" id="sobre" aria-label="Sobre">
@@ -63,29 +47,12 @@ export function About() {
         <LineInView>Além do código</LineInView>
       </h2>
 
-      <div ref={ref} className="about-body">
-        {paras.map((p, pi) => (
+      <div className="about-body">
+        {paras.map((words, pi) => (
           <p key={pi} className="w-para">
-            {p.words.map((word) => {
-              const i = flat++;
-              return reduce ? (
-                <span
-                  key={`${pi}-${word.wi}`}
-                  className={
-                    word.em === "serif" ? "w-serif" : word.em === "green" ? "w-green" : undefined
-                  }
-                >
-                  {word.w}{" "}
-                </span>
-              ) : (
-                <Word
-                  key={`${pi}-${word.wi}`}
-                  word={word}
-                  progress={scrollYProgress}
-                  range={rangeFor(i)}
-                />
-              );
-            })}
+            {words.map((word, wi) => (
+              <Word key={`${pi}-${wi}`} w={word.w} em={word.em} />
+            ))}
           </p>
         ))}
 

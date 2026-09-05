@@ -304,6 +304,7 @@ html.cursor-on * {
 }
 
 /* ------------------------------- nav ------------------------------ */
+/* blend apenas nos textos — a logo keep a cor lime pura do site */
 .nav {
   position: fixed;
   top: 0;
@@ -315,6 +316,10 @@ html.cursor-on * {
   justify-content: space-between;
   gap: 1.5rem;
   padding: 1.3rem var(--pad);
+}
+
+.nav-links,
+.nav-burger {
   color: #fff;
   mix-blend-mode: difference;
 }
@@ -454,12 +459,13 @@ html.menu-open .nav-burger .l2 {
   --acc: var(--lime);
 }
 
-/* badge circular orbitando um asterisco — desenhos vivos no cabeçalho */
+/* badge circular orbitando um asterisco — o desenho vivo do cabeçalho */
 .orbit-badge {
   position: absolute;
-  top: clamp(7rem, 20vh, 12rem);
-  right: clamp(1.5rem, 8vw, 9rem);
-  width: clamp(130px, 17vw, 230px);
+  top: 50%;
+  right: clamp(2rem, 10vw, 11rem);
+  translate: 0 -50%;
+  width: clamp(150px, 20vw, 260px);
   aspect-ratio: 1;
   z-index: 1;
   color: var(--ink-light);
@@ -474,11 +480,10 @@ html.menu-open .nav-burger .l2 {
 .orbit-text text {
   font-family: var(--font-sans);
   font-weight: 550;
-  font-size: 11.5px;
-  letter-spacing: 0.32em;
+  font-size: 13.5px;
   text-transform: uppercase;
   fill: currentColor;
-  opacity: 0.78;
+  opacity: 0.85;
 }
 
 .orbit-star {
@@ -503,20 +508,11 @@ html.menu-open .nav-burger .l2 {
   gap: clamp(1.6rem, 3.6vh, 2.8rem);
 }
 
-.hero-eyebrow {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
-  color: var(--dim);
-}
-
 .hero-title {
   font-weight: 750;
   letter-spacing: -0.045em;
-  font-size: clamp(3.5rem, 14vw, 13rem);
-  line-height: 0.93;
+  font-size: clamp(3.8rem, 15.5vw, 14.5rem);
+  line-height: 0.95;
   display: flex;
   flex-direction: column;
   will-change: transform;
@@ -524,86 +520,6 @@ html.menu-open .nav-burger .l2 {
 
 .hero-title .line {
   display: block;
-}
-
-.hero-tagline {
-  font-size: clamp(1.5rem, 3.6vw, 3.2rem);
-  line-height: 1.15;
-  color: var(--dim);
-  max-width: 30ch;
-}
-
-.hero-sub {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 2.5rem;
-  flex-wrap: wrap;
-  margin-top: clamp(0.8rem, 2vh, 1.6rem);
-}
-
-.hero-role-line {
-  font-weight: 450;
-  font-size: clamp(1rem, 1.6vw, 1.25rem);
-  line-height: 1.45;
-  max-width: 44ch;
-}
-
-.hero-cycle {
-  margin-top: 0.55rem;
-  font-weight: 500;
-  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
-}
-
-.hero-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1.1rem;
-}
-
-.hero-facts {
-  font-size: 0.95rem;
-  color: var(--dim);
-  text-align: right;
-}
-
-.hero-scroll {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.9rem;
-  font-size: 1rem;
-  color: var(--dim);
-}
-
-.scroll-track {
-  width: 1px;
-  height: 52px;
-  background: var(--hair);
-  position: relative;
-  overflow: hidden;
-  display: block;
-}
-
-.scroll-dot {
-  position: absolute;
-  left: 0;
-  top: -30%;
-  width: 1px;
-  height: 30%;
-  background: var(--lime);
-  animation: scrollDot 1.8s var(--ease) infinite;
-}
-
-@keyframes scrollDot {
-  0% {
-    top: -30%;
-  }
-  70%,
-  100% {
-    top: 110%;
-  }
 }
 
 /* ----------------------------- marquee ---------------------------- */
@@ -751,8 +667,8 @@ html.menu-open .nav-burger .l2 {
   font-weight: 500;
   letter-spacing: -0.015em;
   font-size: clamp(1.4rem, 2.9vw, 2.5rem);
-  line-height: 1.32;
-  margin-bottom: 1.6rem;
+  line-height: 1.45;
+  margin-bottom: 2.1rem;
 }
 
 .w-serif {
@@ -1270,9 +1186,9 @@ html.menu-open .nav-burger .l2 {
   }
 
   .orbit-badge {
-    top: clamp(5.5rem, 14vh, 8rem);
+    top: 38%;
     right: var(--pad);
-    width: clamp(110px, 26vw, 160px);
+    width: clamp(120px, 28vw, 180px);
   }
 
   .work-row {
@@ -1289,29 +1205,16 @@ html.menu-open .nav-burger .l2 {
   .edu-grid {
     grid-template-columns: 1fr;
   }
-
-  .hero-side {
-    align-items: flex-start;
-  }
-
-  .hero-facts {
-    text-align: left;
-  }
 }
 
 @media (max-width: 560px) {
   .hero-title {
     font-size: clamp(3.1rem, 17vw, 5.5rem);
   }
-
-  .hero-eyebrow .hero-coords {
-    display: none;
-  }
 }
 
 /* ------------------------ movimento reduzido ---------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .scroll-dot,
   .orbit-text,
   .wave-track {
     animation: none !important;
