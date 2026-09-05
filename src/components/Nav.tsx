@@ -72,7 +72,16 @@ export function Nav({ ready }: { ready: boolean }) {
               aria-pressed={lang === l}
               data-cursor="link"
             >
-              {l === "pt" ? "PT" : "EN"}
+              {lang === l && (
+                <motion.span
+                  layoutId="lang-pill"
+                  className="lang-pill"
+                  transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                />
+              )}
+              <span className="lang-label">
+                <ScrambleText text={l === "pt" ? "PT" : "EN"} />
+              </span>
             </button>
           ))}
         </div>
@@ -136,7 +145,14 @@ export function Nav({ ready }: { ready: boolean }) {
                     aria-pressed={lang === l}
                     data-cursor="link"
                   >
-                    {l === "pt" ? "PT" : "EN"}
+                    {lang === l && (
+                      <motion.span
+                        layoutId="lang-pill-m"
+                        className="lang-pill"
+                        transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                      />
+                    )}
+                    <span className="lang-label">{l === "pt" ? "PT" : "EN"}</span>
                   </button>
                 ))}
               </div>

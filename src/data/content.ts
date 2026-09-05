@@ -61,6 +61,7 @@ export interface Content {
   nav: { links: { id: string; label: string }[] };
   hero: {
     nameLines: [string, string];
+    orbit: string;
     taglinePre: string;
     taglineAmp: string;
     taglinePos: string;
@@ -108,6 +109,7 @@ export const CONTENT: Record<Lang, Content> = {
     },
     hero: {
       nameLines: ["Thiago", "Antunes"],
+      orbit: "engenheiro de software · portfólio 2026 · fullstack & genai ·",
       taglinePre: "engenharia de software",
       taglineAmp: "&",
       taglinePos: "interfaces vivas",
@@ -296,6 +298,7 @@ export const CONTENT: Record<Lang, Content> = {
     },
     hero: {
       nameLines: ["Thiago", "Antunes"],
+      orbit: "software engineer · portfolio 2026 · fullstack & genai ·",
       taglinePre: "software engineering",
       taglineAmp: "&",
       taglinePos: "living interfaces",

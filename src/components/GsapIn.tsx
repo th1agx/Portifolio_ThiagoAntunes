@@ -29,7 +29,7 @@ const PRESETS: Record<
   },
   drop: {
     from: { y: -80, opacity: 0 },
-    to: { y: 0, opacity: 1, duration: 1.15, ease: "bounce.out" },
+    to: { y: 0, opacity: 1, duration: 1.0, ease: "expo.out" },
   },
   elastic: {
     from: { scale: 0.82, opacity: 0 },
