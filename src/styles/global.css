@@ -664,7 +664,15 @@ html.menu-open .nav-burger .l2 {
   will-change: transform;
 }
 
-/* tinta por painel (fundo vem inline do WavePanel) */
+/* cápsula: entra reduzida e arredondada — a seção anterior vira
+   moldura ao redor — e cresce até cobrir; sombra profunda dá relevo */
+.panel.capsule {
+  box-shadow:
+    0 -30px 120px rgba(0, 0, 0, 0.45),
+    0 -8px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* tinta por painel (fundo vem inline do CapsulePanel) */
 .panel-chalk {
   color: var(--ink-dark);
   --dim: rgba(20, 20, 16, 0.64);
@@ -686,38 +694,7 @@ html.menu-open .nav-burger .l2 {
   --acc: var(--ink-dark);
 }
 
-/* a onda: fica ACIMA do painel (bottom: 100%), então some da tela
-   quando o painel gruda — durante a entrada ela varre a seção */
-.wave {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 100%;
-  height: clamp(70px, 12vh, 140px);
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.wave-track {
-  display: flex;
-  width: 200%;
-  height: 100%;
-  animation: waveDrift 16s linear infinite;
-}
-
-.wave svg {
-  width: 50%;
-  height: 100%;
-  flex: none;
-}
-
-@keyframes waveDrift {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* respiro extra no primeiro conteúdo — a onda ainda está varrendo
+/* respiro extra no primeiro conteúdo — a cápsula ainda está crescendo
    quando o painel gruda, então o topo precisa de folga */
 .panel > .section:first-of-type {
   padding-top: clamp(9rem, 22vh, 15rem);
@@ -1304,7 +1281,7 @@ html.menu-open .nav-burger .l2 {
 @media (prefers-reduced-motion: reduce) {
   .scroll-dot,
   .orbit-text,
-  .wave-track {
+  .scroll-dot {
     animation: none !important;
   }
 

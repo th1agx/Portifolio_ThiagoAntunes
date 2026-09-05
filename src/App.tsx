@@ -12,7 +12,7 @@ import { Showcase } from "./components/Showcase";
 import { Experience } from "./components/Experience";
 import { Stack } from "./components/Stack";
 import { Contact } from "./components/Contact";
-import { WavePanel } from "./components/Panel";
+import { CapsulePanel } from "./components/Panel";
 import { getLenis, initScroll } from "./lib/scroll";
 
 export default function App() {
@@ -57,23 +57,23 @@ export default function App() {
         <Marquee />
 
         {/* onda chalk — quem eu sou + formação */}
-        <WavePanel fill="#EDEDE8" className="panel-chalk" z={2}>
+        <CapsulePanel fill="#EDEDE8" className="panel-chalk" z={2}>
           <About />
           <Education />
-        </WavePanel>
+        </CapsulePanel>
 
         {/* onda graphite — o que construí */}
-        <WavePanel fill="#131412" className="panel-graphite" z={3}>
+        <CapsulePanel fill="#131412" className="panel-graphite" z={3}>
           <Works />
           <Showcase />
           <Experience />
           <Stack />
-        </WavePanel>
+        </CapsulePanel>
 
         {/* onda lime — o finale */}
-        <WavePanel fill="#D7F452" className="panel-lime" z={4}>
+        <CapsulePanel fill="#D7F452" className="panel-lime" z={4}>
           <Contact />
-        </WavePanel>
+        </CapsulePanel>
       </main>
     </>
   );
