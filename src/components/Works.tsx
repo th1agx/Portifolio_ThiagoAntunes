@@ -4,7 +4,7 @@ import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, useV
 import { EASE } from "../lib/utils";
 import { PROJECTS } from "../data/content";
 import type { Project } from "../data/content";
-import { LineInView, Reveal } from "./Reveal";
+import { Reveal, WordsInView } from "./Reveal";
 import { ProjectPoster } from "./ProjectPoster";
 
 function Row({
@@ -80,7 +80,7 @@ export function Works() {
   return (
     <section className="section" id="trabalhos" aria-label="Trabalhos">
       <h2 className="sec-title">
-        <LineInView>Trabalhos</LineInView>
+        <WordsInView>Trabalhos</WordsInView>
       </h2>
 
       <div

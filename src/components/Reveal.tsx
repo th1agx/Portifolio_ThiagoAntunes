@@ -81,3 +81,35 @@ export function LineInView({ children, delay = 0, className }: LineInViewProps) 
     </span>
   );
 }
+
+/**
+ * Título revelado PALAVRA por palavra: cada uma sobe da máscara com
+ * um leve giro — entrada rica, com ritmo, para títulos de seção.
+ */
+export function WordsInView({ children, className }: LineInViewProps) {
+  const reduce = useReducedMotion();
+  const text = typeof children === "string" ? children : String(children ?? "");
+  const words = text.split(" ").filter(Boolean);
+  return (
+    <span className={`words-in ${className ?? ""}`}>
+      {words.map((w, i) => (
+        <span key={i} className="mask wi-mask">
+          <motion.span
+            className="mask-inner"
+            initial={reduce ? { y: "0%" } : { y: "112%", rotate: 5 }}
+            whileInView={{ y: "0%", rotate: 0 }}
+            viewport={{ once: true, margin: "-6% 0px -6% 0px" }}
+            transition={{
+              duration: reduce ? 0 : 0.9,
+              delay: reduce ? 0 : 0.08 + i * 0.07,
+              ease: EASE,
+            }}
+          >
+            {w}
+            {i < words.length - 1 ? "\u00A0" : ""}
+          </motion.span>
+        </span>
+      ))}
+    </span>
+  );
+}
