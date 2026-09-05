@@ -1,4 +1,5 @@
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
+import { EASE } from "../lib/utils";
 import { LineMask } from "./Reveal";
 
 /** Badge circular: texto orbitando um asterisco, girando sem parar. */
@@ -69,6 +70,15 @@ export function Hero({ ready }: { ready: boolean }) {
             </LineMask>
           </span>
         </motion.h1>
+
+        <motion.p
+          className="hero-tagline serif"
+          initial={{ opacity: 0, y: 22 }}
+          animate={ready ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, delay: base + 0.3, ease: EASE }}
+        >
+          engenharia de software <span className="green">&</span> interfaces vivas
+        </motion.p>
       </motion.div>
     </section>
   );

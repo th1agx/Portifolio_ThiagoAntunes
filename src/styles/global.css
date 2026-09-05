@@ -318,10 +318,13 @@ html.cursor-on * {
   gap: 1.5rem;
   padding: 1.3rem var(--pad);
   --nav-ink: #efede6;
+  /* logo: lime sobre fundos escuros, preta sobre claros */
+  --nav-logo-ink: var(--lime);
 }
 
 .nav--on-light {
   --nav-ink: var(--ink-dark);
+  --nav-logo-ink: var(--ink-dark);
 }
 
 .nav-logo,
@@ -336,7 +339,7 @@ html.cursor-on * {
   display: block;
   height: clamp(22px, 2.4vw, 28px);
   aspect-ratio: 1492 / 568;
-  background-color: var(--nav-ink);
+  background-color: var(--nav-logo-ink);
   -webkit-mask: url("/logo-head.png") center / contain no-repeat;
   mask: url("/logo-head.png") center / contain no-repeat;
 }
@@ -919,6 +922,7 @@ html.menu-open .nav-burger .l2 {
   padding: 0.85rem 1.5rem;
   border-radius: 999px;
   width: max-content;
+  pointer-events: auto;
   transition:
     background 0.3s,
     color 0.3s,
