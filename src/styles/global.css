@@ -1,0 +1,1235 @@
+/* ================================================================== */
+/*  th1agx — design system v6                                          */
+/*                                                                     */
+/*  Base grafite escuro com acentos lime. As seções chegam em ONDA:    */
+/*  painéis sticky que sobem varrendo a tela anterior com borda        */
+/*  senoidal animada (chalk → graphite → lime). Hero vivo: badge       */
+/*  circular orbitando um asterisco. Cursor líquido que estica.        */
+/*  Tipografia: Bricolage Grotesque × Fraunces itálico.               */
+/* ================================================================== */
+
+/* ------------------------------ tokens --------------------------- */
+:root {
+  --bg-nardo: #8a8a83;
+  --bg-chalk: #edede8;
+  --bg-graphite: #131412;
+  --bg-lime: #d7f452;
+  --lime: #d7f452;
+  --ink-dark: #141410;
+  --ink-light: #efede6;
+
+  --font-sans: "Bricolage Grotesque Variable", system-ui, -apple-system, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+
+  --pad: clamp(1.25rem, 4vw, 4.5rem);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------ reset ----------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(215, 244, 82, 0.4) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(215, 244, 82, 0.35);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ------------------------------ base ------------------------------ */
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-graphite);
+  color: var(--ink-light);
+  line-height: 1.5;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html.lock,
+html.menu-open {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--lime);
+  color: var(--ink-dark);
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+html.cursor-on * {
+  cursor: none !important;
+}
+
+/* --------------------------- utilitários -------------------------- */
+.dim {
+  color: var(--dim, rgba(20, 20, 16, 0.64));
+}
+
+.green {
+  color: var(--acc, var(--ink-dark));
+}
+
+.serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
+/* máscara com folga para descendentes e overhang do itálico */
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.mask-inner {
+  display: inline-block;
+  padding-right: 0.08em;
+  will-change: transform;
+}
+
+.skip {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 200;
+  background: var(--lime);
+  color: var(--ink-dark);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 999px;
+  transition: top 0.3s var(--ease);
+}
+
+.skip:focus {
+  top: 1rem;
+}
+
+/* ------------------------ camadas globais ------------------------- */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--lime);
+  transform-origin: 0 50%;
+  z-index: 70;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+/* ------------------------------ cursor ---------------------------- */
+.cursor-dot,
+.cursor-ring-outer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  z-index: 999;
+  mix-blend-mode: difference;
+}
+
+/* o anel vive dentro do outer (que dá x/y com mola); o transform
+   interno é do motion: rotate + squash & stretch por velocidade */
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--lime);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: difference;
+  transition:
+    width 0.3s var(--ease),
+    height 0.3s var(--ease),
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.cursor-ring-outer {
+  z-index: 998;
+}
+
+.cursor-ring.link {
+  width: 56px;
+  height: 56px;
+}
+
+.cursor-ring.view {
+  width: 88px;
+  height: 88px;
+  background: var(--lime);
+  border-color: transparent;
+  mix-blend-mode: normal;
+}
+
+.cursor-label {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-dark);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.cursor-ring.view .cursor-label {
+  opacity: 1;
+}
+
+/* ---------------------------- preloader --------------------------- */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+}
+
+.pre-col {
+  flex: 1;
+  position: relative;
+  background: var(--bg-graphite);
+  will-change: transform;
+}
+
+.pre-fade {
+  position: absolute;
+  inset: 0;
+  color: var(--ink-light);
+}
+
+.pre-label {
+  position: absolute;
+  top: 1.6rem;
+  left: var(--pad);
+  font-size: 1.05rem;
+  color: rgba(239, 237, 230, 0.62);
+}
+
+.pre-name {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-size: clamp(2.2rem, 7vw, 6rem);
+  white-space: nowrap;
+}
+
+.pre-count {
+  position: absolute;
+  right: var(--pad);
+  bottom: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  font-size: clamp(4rem, 11vw, 9rem);
+  line-height: 1;
+}
+
+.pre-count span {
+  font-size: 0.35em;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.pre-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--lime);
+  transform-origin: left center;
+}
+
+/* ------------------------------- nav ------------------------------ */
+/* blend apenas nos textos — a logo keep a cor lime pura do site */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.3rem var(--pad);
+}
+
+.nav-links,
+.nav-burger {
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.nav-logo {
+  height: clamp(22px, 2.6vw, 30px);
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.4rem;
+}
+
+.nav-link {
+  padding: 0.15rem 0;
+  font-weight: 500;
+  font-size: 0.95rem;
+  opacity: 0.72;
+  transition: opacity 0.25s;
+}
+
+.nav-link:hover {
+  opacity: 1;
+  font-family: var(--font-serif);
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+.nav-burger {
+  display: none;
+  width: 34px;
+  height: 20px;
+  position: relative;
+}
+
+.nav-burger .l {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transition:
+    transform 0.4s var(--ease),
+    top 0.4s var(--ease);
+}
+
+.nav-burger .l1 {
+  top: 4px;
+}
+
+.nav-burger .l2 {
+  top: 14px;
+}
+
+html.menu-open .nav-burger .l1 {
+  top: 9px;
+  transform: rotate(45deg);
+}
+
+html.menu-open .nav-burger .l2 {
+  top: 9px;
+  transform: rotate(-45deg);
+}
+
+/* menu mobile */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: var(--bg-graphite);
+  color: var(--ink-light);
+  --dim: rgba(239, 237, 230, 0.64);
+  --acc: var(--lime);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5vh;
+  padding: 6rem var(--pad) 3rem;
+}
+
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.menu-line {
+  overflow: hidden;
+}
+
+.menu-link {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-size: clamp(2.6rem, 11vw, 6rem);
+  line-height: 1.06;
+}
+
+.menu-link .menu-label {
+  transition: color 0.3s;
+}
+
+.menu-link:hover .menu-label {
+  color: var(--acc);
+}
+
+.menu-foot {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+  font-size: 1.05rem;
+  color: var(--dim);
+}
+
+/* ------------------------------- hero ----------------------------- */
+.hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  padding: 6.5rem var(--pad) 2.6rem;
+  overflow: hidden;
+  background: var(--bg-graphite);
+  color: var(--ink-light);
+  --dim: rgba(239, 237, 230, 0.64);
+  --hair: rgba(239, 237, 230, 0.18);
+  --acc: var(--lime);
+}
+
+/* badge circular orbitando um asterisco — o desenho vivo do cabeçalho */
+.orbit-badge {
+  position: absolute;
+  top: 50%;
+  right: clamp(2rem, 10vw, 11rem);
+  translate: 0 -50%;
+  width: clamp(150px, 20vw, 260px);
+  aspect-ratio: 1;
+  z-index: 1;
+  color: var(--ink-light);
+}
+
+.orbit-text {
+  width: 100%;
+  height: 100%;
+  animation: orbitSpin 26s linear infinite;
+}
+
+.orbit-text text {
+  font-family: var(--font-sans);
+  font-weight: 550;
+  font-size: 13.5px;
+  text-transform: uppercase;
+  fill: currentColor;
+  opacity: 0.85;
+}
+
+.orbit-star {
+  position: absolute;
+  inset: 0;
+  width: 42%;
+  height: 42%;
+  margin: auto;
+  color: var(--lime);
+}
+
+@keyframes orbitSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.6rem, 3.6vh, 2.8rem);
+}
+
+.hero-title {
+  font-weight: 750;
+  letter-spacing: -0.045em;
+  font-size: clamp(3.8rem, 15.5vw, 14.5rem);
+  line-height: 0.95;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.hero-title .line {
+  display: block;
+}
+
+/* ----------------------------- marquee ---------------------------- */
+.marquee {
+  border-top: 1px solid rgba(239, 237, 230, 0.18);
+  border-bottom: 1px solid rgba(239, 237, 230, 0.18);
+  padding: 1.4rem 0;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-graphite);
+  color: var(--ink-light);
+  --dim: rgba(239, 237, 230, 0.64);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-chunk {
+  display: flex;
+  align-items: center;
+  gap: 3vw;
+  padding-right: 3vw;
+}
+
+.marquee-item {
+  display: flex;
+  align-items: baseline;
+  gap: 3vw;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  font-size: clamp(1.8rem, 4.2vw, 4rem);
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.marquee-item .o {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(239, 237, 230, 0.5);
+}
+
+.marquee-sep {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.72em;
+  color: var(--lime);
+}
+
+/* ------------------------------ painéis --------------------------- */
+/* painel-onda: gruda no topo e sobe varrendo a tela anterior;
+   a onda senoidal no topo ondula sem parar enquanto sobe */
+.panel-wrap {
+  position: relative;
+}
+
+.panel {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  will-change: transform;
+}
+
+/* tinta por painel (fundo vem inline do WavePanel) */
+.panel-chalk {
+  color: var(--ink-dark);
+  --dim: rgba(20, 20, 16, 0.64);
+  --hair: rgba(20, 20, 16, 0.18);
+  --acc: var(--ink-dark);
+}
+
+.panel-graphite {
+  color: var(--ink-light);
+  --dim: rgba(239, 237, 230, 0.64);
+  --hair: rgba(239, 237, 230, 0.16);
+  --acc: var(--lime);
+}
+
+.panel-lime {
+  color: var(--ink-dark);
+  --dim: rgba(20, 20, 16, 0.66);
+  --hair: rgba(20, 20, 16, 0.2);
+  --acc: var(--ink-dark);
+}
+
+/* a onda: fica ACIMA do painel (bottom: 100%), então some da tela
+   quando o painel gruda — durante a entrada ela varre a seção */
+.wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: clamp(70px, 12vh, 140px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wave-track {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: waveDrift 16s linear infinite;
+}
+
+.wave svg {
+  width: 50%;
+  height: 100%;
+  flex: none;
+}
+
+@keyframes waveDrift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* respiro extra no primeiro conteúdo — a onda ainda está varrendo
+   quando o painel gruda, então o topo precisa de folga */
+.panel > .section:first-of-type {
+  padding-top: clamp(9rem, 22vh, 15rem);
+}
+
+/* ----------------------------- seções ----------------------------- */
+.section {
+  position: relative;
+  padding: clamp(6rem, 16vh, 11rem) var(--pad);
+}
+
+.sec-title {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  font-size: clamp(2.7rem, 7.5vw, 7.5rem);
+  margin-bottom: clamp(3rem, 9vh, 6.5rem);
+}
+
+/* ------------------------------ sobre ----------------------------- */
+.about-body {
+  max-width: 68rem;
+}
+
+.w-para {
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  font-size: clamp(1.4rem, 2.9vw, 2.5rem);
+  line-height: 1.45;
+  margin-bottom: 2.1rem;
+}
+
+.w-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.w-green {
+  color: var(--acc);
+}
+
+.about-foot {
+  border-top: 1px solid var(--hair);
+  margin-top: clamp(3rem, 7vh, 5rem);
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.about-foot .serif {
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+  color: var(--dim);
+}
+
+.current-role {
+  font-weight: 600;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  letter-spacing: -0.015em;
+}
+
+/* ---------------------------- trabalhos --------------------------- */
+.works-list > *:last-child .work-row {
+  border-bottom: 1px solid var(--hair);
+}
+
+.work-row {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: clamp(1rem, 3vw, 3rem);
+  padding: clamp(1.9rem, 4vw, 3.4rem) 0;
+  border-top: 1px solid var(--hair);
+  width: 100%;
+  text-align: left;
+}
+
+.work-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.work-title {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  font-size: clamp(2rem, 5.2vw, 4.6rem);
+  line-height: 0.98;
+  transition:
+    transform 0.5s var(--ease),
+    color 0.35s ease;
+}
+
+.work-sub {
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  color: var(--dim);
+}
+
+.work-year {
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .work-row:hover .work-title {
+    transform: translateX(clamp(6px, 1vw, 14px));
+    color: var(--acc);
+  }
+}
+
+.work-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: clamp(230px, 24vw, 400px);
+  aspect-ratio: 4 / 5;
+  z-index: 30;
+  pointer-events: none;
+  translate: -50% -55%;
+  will-change: transform;
+}
+
+.work-preview-item {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.work-inline-poster {
+  display: block;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin-bottom: 1.2rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .work-inline-poster {
+    display: none;
+  }
+}
+
+/* --------------------------- pôsteres ----------------------------- */
+/* Cor sólida + nome do projeto em tipo gigante + linha serif. */
+.poster {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: size;
+}
+
+.poster-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 7cqw;
+  gap: 2cqw;
+}
+
+/* variante minimal (showcase): só a linha serif no topo */
+.poster.minimal .poster-inner {
+  justify-content: flex-start;
+}
+
+.poster.minimal .poster-title {
+  display: none;
+}
+
+.poster-title {
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  font-size: 15cqw;
+  text-transform: uppercase;
+}
+
+.poster-line {
+  font-size: 6.5cqw;
+  opacity: 0.85;
+}
+
+/* dev guard — lime sólido, tinta preta */
+.p-guard {
+  background: var(--lime);
+  color: var(--ink-dark);
+}
+
+/* erp — chalk sólido, tinta escura */
+.p-erp {
+  background: var(--bg-chalk);
+  color: var(--ink-dark);
+}
+
+/* forza — preto quente sólido, lime */
+.p-forza {
+  background: #0e0f0d;
+  color: var(--lime);
+}
+
+/* número secreto — quase-preto, tinta clara */
+.p-secret {
+  background: #0a0b0a;
+  color: var(--ink-light);
+}
+
+/* ---------------------------- showcase ---------------------------- */
+.showcase {
+  height: 240vh;
+  position: relative;
+}
+
+.showcase-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.showcase-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  overflow: hidden;
+  background: var(--lime);
+}
+
+.showcase-overlay {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: clamp(2rem, 7vh, 4.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--ink-dark);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.showcase-overlay > .serif {
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+}
+
+.showcase-title {
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  font-size: clamp(2.6rem, 8vw, 8rem);
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.showcase-copy {
+  max-width: 44rem;
+  color: rgba(20, 20, 16, 0.78);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+}
+
+.showcase-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.3rem;
+  font-weight: 600;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  background: var(--ink-dark);
+  color: var(--lime);
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  width: max-content;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+}
+
+.showcase-link:hover {
+  background: transparent;
+  color: var(--ink-dark);
+  box-shadow: inset 0 0 0 1.5px var(--ink-dark);
+}
+
+/* --------------------------- experiência -------------------------- */
+.xp-list > *:last-child {
+  border-bottom: 1px solid var(--hair);
+}
+
+.xp-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 250px) 1fr;
+  gap: clamp(1.2rem, 3vw, 3.5rem);
+  padding: clamp(2.2rem, 5vh, 3.6rem) 0;
+  border-top: 1px solid var(--hair);
+  align-items: start;
+}
+
+.xp-period {
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  color: var(--dim);
+  line-height: 1.35;
+}
+
+.xp-role {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  font-size: clamp(1.4rem, 2.8vw, 2.3rem);
+  line-height: 1.05;
+}
+
+.xp-row.music .xp-role {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.xp-org {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  color: var(--dim);
+  margin: 0.45rem 0 0.9rem;
+}
+
+.xp-text {
+  color: var(--dim);
+  font-size: clamp(0.98rem, 1.4vw, 1.12rem);
+  line-height: 1.65;
+  max-width: 58rem;
+}
+
+/* ------------------------------ arsenal --------------------------- */
+.stack-list > *:last-child {
+  border-bottom: 1px solid var(--hair);
+}
+
+.stack-group {
+  padding: clamp(1.8rem, 4vh, 2.8rem) 0;
+  border-top: 1px solid var(--hair);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stack-label {
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+  color: var(--dim);
+}
+
+.stack-note {
+  font-size: 0.85em;
+  opacity: 0.75;
+}
+
+.stack-items {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.2rem, 2.1vw, 1.7rem);
+  line-height: 1.65;
+  max-width: 62rem;
+}
+
+.stack-item {
+  transition: color 0.25s;
+}
+
+.stack-item:hover {
+  color: var(--acc);
+}
+
+/* ----------------------------- formação --------------------------- */
+.edu-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(3rem, 7vw, 6rem);
+  align-items: start;
+}
+
+.degree {
+  border-top: 1px solid var(--hair);
+  padding: clamp(1.8rem, 4vh, 2.6rem) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.degree:last-of-type {
+  border-bottom: 1px solid var(--hair);
+}
+
+.degree-course {
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  font-size: clamp(1.35rem, 2.6vw, 2.1rem);
+  line-height: 1.1;
+}
+
+.degree-meta {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  color: var(--dim);
+}
+
+.edu-certs {
+  padding-top: clamp(0.5rem, 2vh, 1.5rem);
+}
+
+.certs-title {
+  font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+  color: var(--dim);
+  margin-bottom: 1.4rem;
+}
+
+.certs-text {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.85;
+  max-width: 34rem;
+}
+
+/* ------------------------------ contato --------------------------- */
+/* finale lime direto no painel-onda — sem frames, sem texto fantasma */
+.contact {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(2.5rem, 7vh, 5rem);
+  padding: clamp(7rem, 16vh, 10rem) var(--pad) 0;
+}
+
+.contact-title {
+  font-weight: 750;
+  letter-spacing: -0.045em;
+  font-size: clamp(2.9rem, 10.5vw, 9.5rem);
+  line-height: 1.04;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05em;
+}
+
+.contact-title .t-line {
+  display: block;
+}
+
+.contact-title .em {
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 0.62em;
+  line-height: 1.2;
+}
+
+.contact-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1.6rem, 4vw, 3rem);
+  margin-top: clamp(2.5rem, 7vh, 5rem);
+}
+
+.contact-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.8rem;
+}
+
+.cta-mail {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: clamp(1rem, 1.9vw, 1.35rem);
+  background: var(--ink-dark);
+  color: var(--lime);
+  border-radius: 999px;
+  padding: 1.3rem 2.2rem;
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.cta-mail:hover {
+  background: transparent;
+  color: var(--ink-dark);
+  box-shadow: inset 0 0 0 1.5px var(--ink-dark);
+}
+
+.social-link {
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--dim);
+  transition: color 0.25s;
+}
+
+.social-link:hover {
+  color: var(--ink-dark);
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.foot-bar {
+  border-top: 1px solid var(--hair);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-inline: calc(-1 * var(--pad));
+  padding: 1.7rem var(--pad);
+  color: var(--dim);
+  font-size: 0.95rem;
+}
+
+.foot-bar .serif {
+  font-size: 1rem;
+}
+
+.to-top {
+  color: var(--dim);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: color 0.25s;
+}
+
+.to-top:hover {
+  color: var(--ink-dark);
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* --------------------------- responsivo --------------------------- */
+@media (max-width: 860px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-burger {
+    display: block;
+  }
+
+  .orbit-badge {
+    top: 38%;
+    right: var(--pad);
+    width: clamp(120px, 28vw, 180px);
+  }
+
+  .work-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .xp-row {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .edu-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-title {
+    font-size: clamp(3.1rem, 17vw, 5.5rem);
+  }
+}
+
+/* ------------------------ movimento reduzido ---------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .orbit-text,
+  .wave-track {
+    animation: none !important;
+  }
+
+  .panel {
+    position: relative;
+  }
+
+  .showcase {
+    height: auto;
+  }
+
+  .showcase-sticky {
+    position: relative;
+    height: 100svh;
+  }
+}
