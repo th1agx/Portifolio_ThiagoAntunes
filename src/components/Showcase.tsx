@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { PROJECTS } from "../data/content";
 import { ProjectPoster } from "./ProjectPoster";
+import { Magnetic } from "./Magnetic";
 
 /**
  * Seção "zoom hero": o frame do projeto destaque entra reduzido e
@@ -56,15 +57,17 @@ export function Showcase() {
               achismo.
             </p>
             {project.link && (
-              <a
-                className="showcase-link"
-                href={project.link}
-                target="_blank"
-                rel="noreferrer"
-                data-cursor="link"
-              >
-                ver no github
-              </a>
+              <Magnetic strength={0.25}>
+                <a
+                  className="showcase-link"
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor="link"
+                >
+                  ver no github
+                </a>
+              </Magnetic>
             )}
           </motion.div>
         </div>

@@ -1210,13 +1210,21 @@ html.menu-open .nav-burger .l2 {
   font-weight: 500;
   font-size: 1.05rem;
   color: var(--dim);
-  transition: color 0.25s;
+  padding: 0.95rem 1.7rem;
+  border-radius: 999px;
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
+/* ao passar o mouse, o social vira o mesmo botão do e-mail */
 .social-link:hover {
-  color: var(--ink-dark);
-  font-family: var(--font-serif);
-  font-style: italic;
+  background: var(--ink-dark);
+  color: var(--lime);
+  font-family: inherit;
+  font-style: normal;
+  box-shadow: none;
 }
 
 .foot-bar {
@@ -1306,4 +1314,11 @@ html.menu-open .nav-burger .l2 {
     position: relative;
     height: 100svh;
   }
+}
+
+/* sheet: topo arredondado varrendo na entrada + sombra de folha */
+.panel.sheet {
+  box-shadow:
+    0 -30px 120px rgba(0, 0, 0, 0.5),
+    0 -8px 40px rgba(0, 0, 0, 0.32);
 }
