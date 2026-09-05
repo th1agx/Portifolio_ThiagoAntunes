@@ -24,12 +24,12 @@ export function Nav({ ready }: { ready: boolean }) {
     else lenis?.start();
   }, [open]);
 
-  // tinta do nav acompanha a seção: claro sobre fundos escuros,
-  // escuro sobre chalk e lime — logo e links sempre aparentes
+  // tinta do nav acompanha o painel no TOPO da viewport (o nav é fixo
+  // no topo): claro sobre grafite, escuro sobre chalk e lime
   // (via pipeline do motion, que enxerga o Lenis)
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (y) => {
-    const probe = y + window.innerHeight * 0.35;
+    const probe = y + window.innerHeight * 0.08;
     const wraps = [...document.querySelectorAll<HTMLElement>(".panel-wrap")];
     let current: HTMLElement | null = null;
     for (const w of wraps) {
