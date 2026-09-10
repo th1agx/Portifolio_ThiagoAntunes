@@ -114,7 +114,7 @@ export const CONTENT: Record<Lang, Content> = {
       taglineAmp: "&",
       taglinePos: "interfaces vivas",
       roleLinePre: "Engenheiro de software júnior no",
-      roleLineHL: "3D Lab",
+      roleLineHL: "3D LAB",
       roleLinePos: "— fullstack, IA generativa e movimento por toda interface.",
       cycle: [
         "desenvolvimento fullstack",
@@ -135,7 +135,7 @@ export const CONTENT: Record<Lang, Content> = {
     about: {
       paras: [
         [
-          { text: "Engenheiro de software no 3D Lab, em Belo Horizonte — construo features fullstack para sistemas ERP com" },
+          { text: "Engenheiro de software no 3D LAB, em Belo Horizonte — construo features fullstack para sistemas ERP com" },
           { text: " JavaScript, PHP, Laravel, Python e SQL", em: "serif" },
           { text: ", do schema do banco à interface que o usuário toca." },
         ],
@@ -154,7 +154,7 @@ export const CONTENT: Record<Lang, Content> = {
       ],
       footSerif: "quatro anos construindo software — e a curva só sobe.",
       rolePre: "Engenheiro de Software Júnior —",
-      roleHL: "3D Lab",
+      roleHL: "3D LAB",
       rolePos: ", desde 06.2026",
     },
     projects: [
@@ -169,7 +169,7 @@ export const CONTENT: Record<Lang, Content> = {
       },
       {
         id: "erp-3dlab",
-        title: "ERP 3D Lab",
+        title: "ERP 3D LAB",
         subtitle: "features fullstack para sistema interno",
         posterLine: "sistema vivo",
         year: "desde 2026",
@@ -206,13 +206,13 @@ export const CONTENT: Record<Lang, Content> = {
       {
         period: "desde 06.2026",
         role: "Engenheiro de Software Júnior",
-        org: "3D Lab — Belo Horizonte",
+        org: "3D LAB — Belo Horizonte",
         text: "Desenvolvo módulos do ERP interno: arquiteto, planejo e implemento features fullstack, do banco de dados à interface. IA generativa, LLMs, agentes e prompt engineering fazem parte do processo real — análise de código, automações e ganho de produtividade com evidência. No dia a dia: JavaScript, PHP, Laravel, Python e SQL, com integrações via API.",
       },
       {
         period: "03 — 06.2026",
         role: "Estagiário de Tecnologia e Processos",
-        org: "3D Lab — Belo Horizonte",
+        org: "3D LAB — Belo Horizonte",
         text: "Módulos do ERP com JavaScript, noções de Nest.js e Next.js, e PHP em integrações internas. GenAI e agentes (Claude Code) para análise de código, scripts e otimização de fluxos.",
       },
     ],
@@ -303,7 +303,7 @@ export const CONTENT: Record<Lang, Content> = {
       taglineAmp: "&",
       taglinePos: "living interfaces",
       roleLinePre: "Junior software engineer at",
-      roleLineHL: "3D Lab",
+      roleLineHL: "3D LAB",
       roleLinePos: "— fullstack, generative AI and motion across every interface.",
       cycle: [
         "fullstack development",
@@ -324,7 +324,7 @@ export const CONTENT: Record<Lang, Content> = {
     about: {
       paras: [
         [
-          { text: "Software engineer at 3D Lab, in Belo Horizonte — I build fullstack features for ERP systems with" },
+          { text: "Software engineer at 3D LAB, in Belo Horizonte — I build fullstack features for ERP systems with" },
           { text: " JavaScript, PHP, Laravel, Python and SQL", em: "serif" },
           { text: ", from the database schema to the interface the user touches." },
         ],
@@ -343,7 +343,7 @@ export const CONTENT: Record<Lang, Content> = {
       ],
       footSerif: "four years building software — and the curve only goes up.",
       rolePre: "Junior Software Engineer —",
-      roleHL: "3D Lab",
+      roleHL: "3D LAB",
       rolePos: ", since 06.2026",
     },
     projects: [
@@ -358,7 +358,7 @@ export const CONTENT: Record<Lang, Content> = {
       },
       {
         id: "erp-3dlab",
-        title: "ERP 3D Lab",
+        title: "ERP 3D LAB",
         subtitle: "fullstack features for an internal system",
         posterLine: "a living system",
         year: "since 2026",
@@ -395,13 +395,13 @@ export const CONTENT: Record<Lang, Content> = {
       {
         period: "since 06.2026",
         role: "Junior Software Engineer",
-        org: "3D Lab — Belo Horizonte",
+        org: "3D LAB — Belo Horizonte",
         text: "I build modules of the internal ERP: architecting, planning and implementing fullstack features, from database to interface. Generative AI, LLMs, agents and prompt engineering are part of the real process — code analysis, automation and productivity gains backed by evidence. Day to day: JavaScript, PHP, Laravel, Python and SQL, with API integrations.",
       },
       {
         period: "03 — 06.2026",
         role: "Technology & Processes Intern",
-        org: "3D Lab — Belo Horizonte",
+        org: "3D LAB — Belo Horizonte",
         text: "ERP modules with JavaScript, working knowledge of Nest.js and Next.js, and PHP in internal integrations. GenAI and agents (Claude Code) for code analysis, scripts and workflow optimization.",
       },
     ],
