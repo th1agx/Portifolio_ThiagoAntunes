@@ -30,6 +30,10 @@ export interface Project {
   year: string;
   variant: "guard" | "erp" | "forza" | "secret";
   link?: string;
+  /** imagem real do projeto (em public/) */
+  image?: string;
+  /** trecho de código real — pôster de código */
+  code?: string[];
 }
 
 export interface Xp {
@@ -166,11 +170,19 @@ export const CONTENT: Record<Lang, Content> = {
         year: "2026",
         variant: "guard",
         link: "https://github.com/th1agx/devguard-skill",
+        image: "/work-devguard.jpg",
       },
       {
         id: "erp-3dlab",
         title: "ERP 3D LAB",
         subtitle: "features fullstack para sistema interno",
+        code: [
+          "async function salvarPedido(payload) {",
+          '  const pedido = await Pedido.create(payload);',
+          '  Estoque.baixa(pedido.itens, { transacao: true });',
+          '  return Response.json({ ok: true, pedido });',
+          "}",
+        ],
         posterLine: "sistema vivo",
         year: "desde 2026",
         variant: "erp",
@@ -183,11 +195,24 @@ export const CONTENT: Record<Lang, Content> = {
         year: "2025",
         variant: "forza",
         link: "https://github.com/th1agx/Python---Forza-Horizon-5-Auto-Drive-XP-Farm.",
+        code: [
+          "def farmar_xp(circuito):",
+          "    while energia_suficiente():",
+          "        dirigir_volta(circuito)",
+          '        print(f"volta concluída — xp acumulado")',
+        ],
       },
       {
         id: "numero-secreto",
         title: "Número Secreto",
         subtitle: "jogo interativo em JavaScript",
+        code: [
+          "function chute(valor) {",
+          "  if (valor === secreto) {",
+          '    return "acertou!";',
+          "  }",
+          "}",
+        ],
         posterLine: "adivinhe se puder",
         year: "2024",
         variant: "secret",
@@ -355,11 +380,19 @@ export const CONTENT: Record<Lang, Content> = {
         year: "2026",
         variant: "guard",
         link: "https://github.com/th1agx/devguard-skill",
+        image: "/work-devguard.jpg",
       },
       {
         id: "erp-3dlab",
         title: "ERP 3D LAB",
         subtitle: "fullstack features for an internal system",
+        code: [
+          "async function saveOrder(payload) {",
+          "  const order = await Order.create(payload);",
+          "  Stock.release(order.items, { transaction: true });",
+          '  return Response.json({ ok: true, order });',
+          "}",
+        ],
         posterLine: "a living system",
         year: "since 2026",
         variant: "erp",
@@ -372,11 +405,24 @@ export const CONTENT: Record<Lang, Content> = {
         year: "2025",
         variant: "forza",
         link: "https://github.com/th1agx/Python---Forza-Horizon-5-Auto-Drive-XP-Farm.",
+        code: [
+          "def farm_xp(track):",
+          "    while enough_energy():",
+          "        drive_lap(track)",
+          '        print(f"lap done — xp banked")',
+        ],
       },
       {
         id: "numero-secreto",
         title: "Secret Number",
         subtitle: "interactive JavaScript game",
+        code: [
+          "function guess(value) {",
+          "  if (value === secret) {",
+          '    return "got it!";',
+          "  }",
+          "}",
+        ],
         posterLine: "guess if you can",
         year: "2024",
         variant: "secret",
