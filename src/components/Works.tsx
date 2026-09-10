@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, useVelocity } from "motion/react";
 import { EASE } from "../lib/utils";
@@ -100,9 +101,10 @@ export function Works() {
         ))}
       </div>
 
-      {usePreview && (
-        <motion.div
-          className="work-preview"
+      {usePreview &&
+        createPortal(
+          <motion.div
+            className="work-preview"
           style={{ x: px, y: py, rotate: rot }}
           animate={{ scale: active !== null ? 1 : 0.55, opacity: active !== null ? 1 : 0 }}
           transition={{ duration: 0.45, ease: EASE }}
@@ -122,8 +124,9 @@ export function Works() {
               <ProjectPoster project={p} />
             </motion.div>
           ))}
-        </motion.div>
-      )}
+        </motion.div>,
+          document.body
+        )}
     </section>
   );
 }
