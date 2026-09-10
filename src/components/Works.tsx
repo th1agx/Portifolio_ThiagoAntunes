@@ -70,7 +70,9 @@ export function Works() {
   // o pôster nunca escapa da tela: o Y fica preso dentro da viewport
   const myClamped = useTransform(my, (v) => {
     const halfH = (Math.min(400, Math.max(230, window.innerWidth * 0.24)) * 1.25) / 2;
-    return Math.min(Math.max(v, halfH + 28), window.innerHeight - halfH - 28);
+    // preso à tela, mas colado no cursor: pode cortar até 45% nas bordas
+    const edge = halfH * 0.55 + 20;
+    return Math.min(Math.max(v, edge), window.innerHeight - edge);
   });
   const py = useSpring(myClamped, { stiffness: 260, damping: 26, mass: 0.55 });
   const rot = useTransform(useVelocity(px), [-1600, 1600], [-6, 6]);
