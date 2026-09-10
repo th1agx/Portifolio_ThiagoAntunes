@@ -113,7 +113,7 @@ export const CONTENT: Record<Lang, Content> = {
       taglinePre: "engenharia de software",
       taglineAmp: "&",
       taglinePos: "interfaces vivas",
-      roleLinePre: "Engenheiro de software júnior no",
+      roleLinePre: "Engenheiro de software júnior na",
       roleLineHL: "3D LAB",
       roleLinePos: "— fullstack, IA generativa e movimento por toda interface.",
       cycle: [
@@ -135,7 +135,7 @@ export const CONTENT: Record<Lang, Content> = {
     about: {
       paras: [
         [
-          { text: "Engenheiro de software no 3D LAB, em Belo Horizonte — construo features fullstack para sistemas ERP com" },
+          { text: "Engenheiro de software na 3D LAB, em Belo Horizonte — construo features fullstack para sistemas ERP com" },
           { text: " JavaScript, PHP, Laravel, Python e SQL", em: "serif" },
           { text: ", do schema do banco à interface que o usuário toca." },
         ],
