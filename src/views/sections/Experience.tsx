@@ -1,6 +1,6 @@
-import { useContent } from "../i18n";
-import { WordsInView } from "./Reveal";
-import { GsapIn } from "./GsapIn";
+import { useContent } from "../../app/providers/LangProvider";
+import { WordsInView } from "../components/Reveal";
+import { GsapIn } from "../components/GsapIn";
 
 /**
  * Trajetória como texto corrido: período em serif itálico à esquerda,

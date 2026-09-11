@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { EMAIL, SOCIALS } from "../data/content";
-import { useContent } from "../i18n";
-import { LineInView } from "./Reveal";
-import { Magnetic } from "./Magnetic";
+import { EMAIL, SOCIALS } from "../../data/content";
+import { useContent } from "../../app/providers/LangProvider";
+import { LineInView } from "../components/Reveal";
+import { Magnetic } from "../components/Magnetic";
 
 function LocalTime() {
   const c = useContent();
