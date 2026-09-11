@@ -58,15 +58,29 @@ export function Hero({ ready }: { ready: boolean }) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
+  // no mount: título e badge NÁCEM ESCONDIDOS — nada de flash bruto
+  // entre o fim do preloader e o início da cascata
+  useEffect(() => {
+    if (reduce || !titleRef.current) return;
+    const ctx = gsap.context(() => {
+      new SplitText(titleRef.current!, { type: "chars" });
+      gsap.set(
+        titleRef.current!.querySelectorAll("div"),
+        { yPercent: 130, rotateX: -85, opacity: 0, transformOrigin: "50% 100%" }
+      );
+      gsap.set(badgeRef.current, { scale: 0, rotate: -120, opacity: 0 });
+    }, titleRef);
+    return () => ctx.revert();
+  }, [reduce]);
+
+  // quando o preloader termina: cascata
   useEffect(() => {
     if (!ready || reduce || !titleRef.current) return;
     const ctx = gsap.context(() => {
-      const split = new SplitText(titleRef.current!, { type: "chars" });
-      gsap.set(split.chars, { transformOrigin: "50% 100%" });
+      const chars = titleRef.current!.querySelectorAll("div");
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(
-        split.chars,
-        { yPercent: 130, rotateX: -85, opacity: 0 },
+      tl.to(
+        chars,
         {
           yPercent: 0,
           rotateX: 0,
@@ -76,9 +90,8 @@ export function Hero({ ready }: { ready: boolean }) {
           ease: "back.out(1.4)",
         },
         0
-      ).fromTo(
+      ).to(
         badgeRef.current,
-        { scale: 0, rotate: -120, opacity: 0 },
         { scale: 1, rotate: 0, opacity: 1, duration: 1.3, ease: "elastic.out(1, 0.55)" },
         0.55
       );
