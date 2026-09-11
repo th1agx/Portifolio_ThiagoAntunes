@@ -1547,7 +1547,7 @@ html.menu-open .nav-burger .l2 {
   object-fit: cover;
 }
 
-.poster.p-guard {
+.poster.p-guard.has-img:not(.minimal) {
   background: #0e0f0d;
 }
 
