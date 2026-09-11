@@ -1,7 +1,7 @@
-import { useContent } from "../i18n";
-import { WordsInView } from "./Reveal";
-import { GsapIn } from "./GsapIn";
-import { ScrambleText } from "./ScrambleText";
+import { useContent } from "../../app/providers/LangProvider";
+import { WordsInView } from "../components/Reveal";
+import { GsapIn } from "../components/GsapIn";
+import { ScrambleText } from "../components/ScrambleText";
 
 /**
  * Arsenal como conversa: "no backend…" seguido das ferramentas em

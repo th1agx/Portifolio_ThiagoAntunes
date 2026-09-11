@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useAnimationFrame, useMotionValue, useReducedMotion, useTransform } from "motion/react";
-import { useContent } from "../i18n";
-import { clamp, wrap } from "../lib/utils";
+import { useContent } from "../../app/providers/LangProvider";
+import { clamp, wrap } from "../../lib/utils";
 
 function Chunk({ items, hidden }: { items: string[]; hidden?: boolean }) {
   return (

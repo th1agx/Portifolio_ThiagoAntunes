@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
-import { EASE } from "../lib/utils";
-import { gsap, SplitText } from "../lib/gsap";
-import { useContent } from "../i18n";
-import { ScrambleCycle } from "./ScrambleText";
+import { EASE } from "../../lib/utils";
+import { gsap, SplitText } from "../../lib/gsap";
+import { useContent } from "../../app/providers/LangProvider";
+import { ScrambleCycle } from "../components/ScrambleText";
 
 /** Badge circular: texto orbitando um asterisco, girando sem parar. */
 function OrbitBadge() {

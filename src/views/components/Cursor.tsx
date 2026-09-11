@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useVelocity } from "motion/react";
-import { useContent } from "../i18n";
+import { useContent } from "../../app/providers/LangProvider";
 
 type CursorMode = "default" | "link" | "view";
 

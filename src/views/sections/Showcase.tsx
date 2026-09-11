@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { useContent } from "../i18n";
-import { ProjectPoster } from "./ProjectPoster";
-import { Magnetic } from "./Magnetic";
+import { useContent } from "../../app/providers/LangProvider";
+import { ProjectPoster } from "../components/ProjectPoster";
+import { Magnetic } from "../components/Magnetic";
 
 /**
  * Seção "zoom hero": o frame do projeto destaque entra reduzido e

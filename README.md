@@ -1,83 +1,92 @@
-# th1agx — portfólio
+# Thiago Antunes — Portfólio
 
-Portfólio de **Thiago Filipe** (engenheiro de software — fullstack + GenAI), construído do zero
-com Vite + React 19 + TypeScript strict + [Motion](https://motion.dev) + [Lenis](https://lenis.darkroom.engineering).
+Portfólio de engenheiro de software construído como um filme: **câmera parada, conteúdo transitando**. Seções inteiras entram deslizando lateralmente, o texto acende palavra por palavra e o carregamento é um objeto único girando. Bilíngue por rota (PT/EN), UI movida a GSAP + Motion, tipografia Bricolage Grotesque × Fraunces.
 
-> Direção de design: o site é uma **pilha de painéis**. Cada bloco entra numa parte da
-> tela, com cantos arredondados, e cresce até cobrir tudo — transição física, nunca fade
-> de cor. Base **nardo**, painel **chalk** (quem sou + formação), painel **graphite**
-> (o que construí), finale **lime** (contato). Tipografia com voz: **Bricolage
-> Grotesque** × **Fraunces itálico**.
+![arquitetura](./public/architecture.png)
 
-## Como rodar
+## Links
 
-```bash
-npm install
-npm run dev      # http://localhost:5173
-npm run build    # typecheck + bundle de produção em dist/
-npm run preview  # serve o dist/ localmente
-```
+- **Produção**: https://thiagoantunes.com
+- **Espelho**: https://th1agx.github.io/Portifolio_ThiagoAntunes
+- **Repos dos projetos**: cada trabalho da lista aponta para o GitHub real
 
-Deploy: `dist/` é estático — Vercel, Netlify ou GitHub Pages servem sem configuração.
+## Stack
 
-## O sistema de painéis
+| Camada | Escolha |
+| --- | --- |
+| Build | Vite 7 + TypeScript strict |
+| UI | React 19 |
+| Animação | GSAP 3 (SplitText, ScrollTrigger) + Motion (motion/react) |
+| Scroll | Lenis (smooth, autoRaf) |
+| Rotas | react-router (HashRouter — funciona em qualquer host estático) |
+| Fontes | @fontsource self-hosted (Bricolage Grotesque Variable, Fraunces italic) |
+| Estilo | CSS global único com design tokens |
 
-| Bloco | Cor | Conteúdo |
-| --- | --- | --- |
-| Base | nardo `#8A8A83` | hero + marquee |
-| Painel 1 | chalk `#EDEDE8` | sobre + formação |
-| Painel 2 | graphite `#131412` | trabalhos + destaque + experiência + arsenal |
-| Finale | lime `#D7F452` | contato (frame que cresce) |
-
-Cada painel (`components/Panel.tsx`) é `position: sticky` com `scale 0.9→1` e
-`border-radius 48px→0` dirigidos pelo scroll; painéis seguintes têm `z-index` maior
-e cobrem os anteriores — o mesmo princípio do take "Dev Guard Skill" no showcase.
-Zero fade de cor: se a cor muda na tela, é porque um painel novo chegou.
-
-## Motion system
-
-| Efeito | Onde | Como |
-| --- | --- | --- |
-| Preloader contador + cortina de colunas | `Preloader.tsx` | rAF com easing cúbico |
-| Título que entorta com a velocidade do scroll | `Hero.tsx` | `useVelocity` → `useSpring` → `skewY` |
-| Frase de papel ciclando em scramble | `ScrambleText.tsx` | decode caractere a caractere |
-| Marquee que acelera/inverte com o scroll | `Marquee.tsx` | `useAnimationFrame` + delta de scroll |
-| Parágrafo revelado palavra por palavra | `About.tsx` | opacity 0.42→1 por palavra |
-| Preview flutuante que persegue o cursor | `Works.tsx` | springs + rotação por velocidade |
-| Takes que crescem (showcase e contato) | `Showcase.tsx` / `Contact.tsx` | sticky + scale + radius |
-| Botões magnéticos | `Magnetic.tsx` | offset do centro × strength |
-| Cursor customizado (dot + anel + "ver") | `Cursor.tsx` | `data-cursor` declarativo |
-
-Tudo respeita `prefers-reduced-motion` e anima apenas `transform`/`opacity`
-(mais `border-radius`, que é barato e só durante transições de painel).
-
-## Arquitetura
+## Arquitetura — MVC + SOLID
 
 ```
 src/
-  data/content.ts      ← ÚNICA fonte de conteúdo (projetos, xp, stack, formação, contatos)
-  lib/scroll.ts        ← Lenis singleton (com fallback nativo)
-  lib/utils.ts         ← easings, wrap, charset do scramble
-  components/          ← 1 arquivo por bloco + primitivas (Panel, Reveal, ScrambleText, Magnetic)
-  styles/global.css    ← design system: tokens, painéis, componentes, responsivo
+├── main.tsx                 # entry: HashRouter + fontes + CSS global
+├── App.tsx                  # rotas: / (pt) e /en (en)
+├── app/
+│   ├── providers/
+│   │   └── LangProvider.tsx # idioma pela ROTA; useLang/useContent
+│   └── layouts/
+│       └── SiteLayout.tsx   # preloader → nav/cursor → seções em painéis
+├── controllers/             # regras de apresentação (hooks)
+│   ├── useActivePanel.ts    # qual painel cobre o topo (tinta do nav)
+│   └── usePreviewFollower.ts# springs do pôster que persegue o cursor
+├── views/
+│   ├── components/          # UI genérica: Reveal, GsapIn, Parallax,
+│   │                        # Magnetic, ScrambleText, Cursor, ProjectPoster
+│   ├── sections/            # Hero, About, Works, Showcase, Experience,
+│   │                        # Stack, Education, Contact, Marquee
+│   └── system/              # Panel (takes), Preloader, Nav
+├── data/
+│   └── content/             # MODEL — única fonte de texto
+│       ├── types.ts         # contratos (Project, Xp, Content...)
+│       ├── pt.ts / en.ts    # conteúdo por idioma
+│       └── index.ts         # CONTENT: Record<Lang, Content>
+├── lib/                     # infra: gsap.ts, scroll.ts (Lenis), utils.ts
+└── styles/
+    └── global.css           # design system completo (tokens → componentes)
 ```
 
-**Para editar o portfólio, edite `src/data/content.ts`.**
+### Como o MVC mapeia
 
-### Pôsteres de projeto
+- **Model** → `data/content`: tipos + conteúdo por idioma. Editar o site é editar `pt.ts`/`en.ts`.
+- **View** → `views/**`: só apresentação; nenhuma view conhece detalhes de scroll/estado global além dos hooks.
+- **Controller** → `controllers/**`: hooks que traduzem o mundo (scroll, DOM) em decisões de UI (ex.: tinta do nav, perseguição do cursor).
 
-Sem imagens externas: cada projeto é um **bloco de cor sólida** com o nome em tipo
-gigante (`ProjectPoster.tsx`). Payload zero — para usar screenshots reais depois,
-troque o conteúdo do `.poster` por `<img>` mantendo `container-type: size`.
+### SOLID na prática
 
-## Performance & acessibilidade
+- **S** — uma responsabilidade por arquivo: `GsapIn` só entra, `useActivePanel` só detecta, `Panel` só transiciona.
+- **O** — aberto a extensão: novo idioma = novo arquivo em `data/content` + 1 entrada no `Record`; novo preset de animação = 1 objeto no mapa do `GsapIn`.
+- **L** — views são trocáveis: qualquer seção pode ser remontada no `SiteLayout` sem efeitos colaterais.
+- **I** — hooks pequenos e focados (`useContent` devolve só o que se pede).
+- **D** — views dependem de contratos (`types.ts`) e providers, nunca de dados acoplados.
 
-- Bundle: ~120 KB gzip; fontes self-hosted (Bricolage + Fraunces) com `unicode-range`
-- Animações composited; zero imagens; zero requests de terceiros em runtime
-- HTML semântico, skip-link, foco visível, `prefers-reduced-motion` honrado
-- Cursor customizado só em `pointer: fine`
+## Sistema de design
 
-## TODO
+- **Paleta**: grafite `#131412` (base) · chalk `#EDEDE8` · lime `#D7F452` (acento) · ink `#141410/#EFEDE6`.
+- **Transições de seção**: painéis sticky — chalk entra em **take da direita**, graphite **da esquerda**, finale lime em **cápsula que cresce**; a seção anterior vira moldura durante a travessia.
+- **Tipografia**: Bricolage Grotesque (display/400–800) × Fraunces itálico (acentos serif).
+- **Motion**: `prefers-reduced-motion` respeitado em tudo (GSAP e Motion).
+- **Identidade**: logo monocromática via CSS mask (lime sobre escuro, preta sobre claro), favicon = marca do círculo.
 
-- [ ] Trocar links genéricos (`github.com/th1agx`) pelos repos reais em `content.ts`
-- [ ] Adicionar `og:image` quando houver capa
+## Scripts
+
+```bash
+npm install      # dependências
+npm run dev      # dev server
+npm run build    # typecheck + build de produção em dist/
+npm run preview  # serve o build
+```
+
+## Deploy
+
+Push no `main` dispara a Vercel (domínio próprio) e o `gh-pages` é atualizado com o build — ambos servem o mesmo bundle. Fluxo: commit em `develop` → merge `--no-ff` em `main` → deploy automático.
+
+---
+
+© 2026 Thiago Antunes · [GitHub](https://github.com/th1agx) · [LinkedIn](https://www.linkedin.com/in/thiagofilipeantunes)
