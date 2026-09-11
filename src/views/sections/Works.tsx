@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import type { PointerEvent as ReactPointerEvent } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, useVelocity } from "motion/react";
-import { EASE } from "../lib/utils";
-import type { Project } from "../data/content";
-import { useContent } from "../i18n";
-import { WordsInView } from "./Reveal";
-import { GsapIn } from "./GsapIn";
-import { ProjectPoster } from "./ProjectPoster";
+import { usePreviewFollower } from "../../controllers/usePreviewFollower";
+import { motion, useReducedMotion } from "motion/react";
+import { EASE } from "../../lib/utils";
+import type { Project } from "../../data/content";
+import { useContent } from "../../app/providers/LangProvider";
+import { WordsInView } from "../components/Reveal";
+import { GsapIn } from "../components/GsapIn";
+import { ProjectPoster } from "../components/ProjectPoster";
 
 function Row({
   project,
@@ -65,23 +65,7 @@ export function Works() {
   );
   const usePreview = canHover && !reduce;
 
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const px = useSpring(mx, { stiffness: 260, damping: 26, mass: 0.55 });
-  // o pôster nunca escapa da tela: o Y fica preso dentro da viewport
-  const myClamped = useTransform(my, (v) => {
-    const halfH = (Math.min(400, Math.max(230, window.innerWidth * 0.24)) * 1.25) / 2;
-    // preso à tela, mas colado no cursor: pode cortar até 45% nas bordas
-    const edge = halfH * 0.55 + 20;
-    return Math.min(Math.max(v, edge), window.innerHeight - edge);
-  });
-  const py = useSpring(myClamped, { stiffness: 260, damping: 26, mass: 0.55 });
-  const rot = useTransform(useVelocity(px), [-1600, 1600], [-6, 6]);
-
-  const onMove = (e: ReactPointerEvent<HTMLDivElement>) => {
-    mx.set(e.clientX);
-    my.set(e.clientY);
-  };
+  const { px, py, rot, onMove } = usePreviewFollower();
 
   return (
     <section className="section" id="trabalhos" aria-label="Trabalhos">

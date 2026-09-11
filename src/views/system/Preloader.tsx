@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
-import { gsap } from "../lib/gsap";
+import { gsap } from "../../lib/gsap";
 
 /**
  * Tela de carregamento (GSAP, ~5s): um único objeto em cena — o

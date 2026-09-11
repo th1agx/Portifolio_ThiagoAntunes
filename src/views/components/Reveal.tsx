@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { EASE } from "../lib/utils";
-import { gsap, SplitText } from "../lib/gsap";
+import { EASE } from "../../lib/utils";
+import { gsap, SplitText } from "../../lib/gsap";
 
 /* ------------------------------------------------------------------ */
 /* Primitivas de entrada usadas em todo o site.                        */

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { EASE } from "../lib/utils";
-import { getLenis, scrollToSection } from "../lib/scroll";
-import { SOCIALS } from "../data/content";
-import { useLang } from "../i18n";
-import { ScrambleText } from "./ScrambleText";
+import { AnimatePresence, motion } from "motion/react";
+import { EASE } from "../../lib/utils";
+import { getLenis, scrollToSection } from "../../lib/scroll";
+import { SOCIALS } from "../../data/content";
+import { useLang } from "../../app/providers/LangProvider";
+import { isLightPanel, useActivePanel } from "../../controllers/useActivePanel";
+import { ScrambleText } from "../components/ScrambleText";
 
 export function Nav({ ready }: { ready: boolean }) {
   const { lang, setLang, c } = useLang();
@@ -18,20 +19,8 @@ export function Nav({ ready }: { ready: boolean }) {
     else lenis?.start();
   }, [open]);
 
-  // tinta do nav acompanha o painel no TOPO da viewport (o nav é fixo
-  // no topo): claro sobre grafite, escuro sobre chalk e lime
-  // (via pipeline do motion, que enxerga o Lenis)
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (y) => {
-    const probe = y + 2;
-    const wraps = [...document.querySelectorAll<HTMLElement>(".panel-wrap")];
-    let current: HTMLElement | null = null;
-    for (const w of wraps) {
-      if (w.offsetTop <= probe) current = w;
-    }
-    const cls = current?.className ?? "";
-    setOnLight(cls.includes("chalk") || cls.includes("lime"));
-  });
+  // tinta do nav acompanha o painel no topo da viewport (controller)
+  useActivePanel((cls) => setOnLight(isLightPanel(cls)));
 
   const go = (id: string) => {
     setOpen(false);

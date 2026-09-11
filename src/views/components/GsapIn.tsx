@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import { useReducedMotion } from "motion/react";
-import { gsap } from "../lib/gsap";
+import { gsap } from "../../lib/gsap";
 
 export type GsapPreset =
   | "wipe" /* cortina horizontal (clip-path) */
