@@ -15,8 +15,13 @@ export function Education() {
             <GsapIn key={d.course} preset="drop" className="degree">
               <h3 className="degree-course">{d.course}</h3>
               <p className="degree-meta">
-                {d.school} · {d.period} ·{" "}
-                <span className="serif green">{d.status}</span>
+                {d.school} · {d.period}
+                {d.status ? (
+                  <>
+                    {" · "}
+                    <span className="serif green">{d.status}</span>
+                  </>
+                ) : null}
               </p>
             </GsapIn>
           ))}
