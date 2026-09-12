@@ -12,7 +12,7 @@ export const PT: Content = {
     },
     hero: {
       nameLines: ["Thiago", "Antunes"],
-      orbit: "engenheiro de software · portfólio 2026 · fullstack & genai ·",
+      orbit: "engenheiro de software · genai · llms · aws · rag · prompt engineering ·",
       taglinePre: "engenharia de software",
       taglineAmp: "&",
       taglinePos: "interfaces vivas",
@@ -20,11 +20,11 @@ export const PT: Content = {
       roleLineHL: "3D LAB",
       roleLinePos: "— fullstack, IA generativa e movimento por toda interface.",
       cycle: [
-        "desenvolvimento fullstack",
         "IA generativa & agentes",
-        "ERP & sistemas web",
-        "prompt engineering",
-        "automações & scripts",
+        "LLMs, RAG & prompt engineering",
+        "AWS AI",
+        "desenvolvimento fullstack",
+        "automações com Python",
       ],
       scrollHint: "role para conhecer",
     },
@@ -38,21 +38,21 @@ export const PT: Content = {
     about: {
       paras: [
         [
-          { text: "Engenheiro de software na 3D LAB, em Belo Horizonte — construo features fullstack para sistemas ERP com" },
-          { text: " JavaScript, PHP, Laravel, Python e SQL", em: "serif" },
-          { text: ", do schema do banco à interface que o usuário toca." },
+          { text: "Engenheiro de software na 3D LAB, em Belo Horizonte — meu foco é" },
+          { text: " IA aplicada ao desenvolvimento", em: "serif" },
+          { text: ": features fullstack para sistemas ERP com IA Generativa, LLMs e agentes no processo, de ponta a ponta." },
         ],
         [
-          { text: "Meu diferencial é a" },
-          { text: " IA generativa", em: "serif" },
-          { text: " aplicada ao processo real de desenvolvimento: LLMs, agentes e prompt engineering para análise de código, automações e produtividade com" },
+          { text: "No dia a dia, uso" },
+          { text: " LLMs, RAG, prompt engineering e AI-driven development", em: "serif" },
+          { text: " para análise e refino de código, criação de scripts, automações, testes e ganho de produtividade com" },
           { text: " evidência", em: "green" },
           { text: " — não com achismo." },
         ],
         [
-          { text: "A base é sólida e a curva é de subida: tecnólogo em Análise e Desenvolvimento concluído, Engenharia de Software em curso, e certificações em" },
-          { text: " IA, Python, QA e SQL", em: "serif" },
-          { text: " — estudo é parte do trabalho." },
+          { text: "A base é sólida e a curva é de subida: Engenharia de Software em curso, certificações em" },
+          { text: " IA, AWS, Python e QA", em: "serif" },
+          { text: " e o título de AWS Student Builder — estudo é parte do trabalho." },
         ],
       ],
       footSerif: "quatro anos construindo software — e a curva só sobe.",
@@ -141,18 +141,17 @@ export const PT: Content = {
       },
     ],
     stack: [
-      { label: "na base web", items: ["HTML", "CSS", "JavaScript", "Next.js"] },
-      { label: "no backend", items: ["PHP", "Laravel", "Node.js", "Nest.js", "Python"] },
-      { label: "nos dados", items: ["SQL", "modelagem de dados", "APIs REST"] },
       {
         label: "com IA",
-        items: ["GenAI", "LLMs", "agentes", "prompt engineering", "Claude Code", "Codex"],
+        items: ["GenAI", "LLMs", "RAG", "agentes de IA", "prompt engineering", "AWS AI", "Claude Code", "Codex"],
       },
+      { label: "em código", items: ["Python", "JavaScript", "TypeScript", "React", "PHP", "Laravel"] },
+      { label: "integrando", items: ["APIs REST", "Node.js", "Nest.js", "Next.js", "automações"] },
       { label: "no processo", items: ["Git", "GitHub", "Kanban", "QA & testes"] },
       {
         label: "neste site",
         note: "construído à mão, sem template",
-        items: ["React", "TypeScript", "Motion", "Vite", "Lenis"],
+        items: ["React", "TypeScript", "Motion", "GSAP", "Vite"],
       },
     ],
     marquee: [
@@ -177,12 +176,6 @@ export const PT: Content = {
           period: "2025 — cursando",
           status: "em curso",
         },
-        {
-          course: "Análise e Desenvolvimento de Sistemas",
-          school: "Estácio",
-          period: "2022 — 2024",
-          status: "concluído",
-        },
       ],
       certsTitle: "pelo caminho, certifiquei-me em",
       certs: [
@@ -195,6 +188,8 @@ export const PT: Content = {
         { name: "Quality Assurance: plano de testes e gestão de bugs", issuer: "Alura" },
         { name: "Banco de Dados e SQL", issuer: "AlgaWorks" },
         { name: "Programação de Algoritmos Escaláveis", issuer: "Estácio" },
+        { name: "Certificação AWS", issuer: "Amazon Web Services" },
+        { name: "AWS Student Builder", issuer: "Amazon Web Services" },
       ],
     },
     contact: {
