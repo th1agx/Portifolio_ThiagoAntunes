@@ -1552,14 +1552,14 @@ html.menu-open .nav-burger .l2 {
 }
 
 /* gradiente para o título respirar sobre a imagem */
-.poster.has-img .poster-inner {
+.poster.has-img:not(.minimal) .poster-inner {
   background: linear-gradient(to top, rgba(8, 9, 8, 0.82), rgba(8, 9, 8, 0));
   padding-top: 40%;
   margin-top: auto;
 }
 
-.poster.has-img .poster-title,
-.poster.has-img .poster-line {
+.poster.has-img:not(.minimal) .poster-title,
+.poster.has-img:not(.minimal) .poster-line {
   color: var(--ink-light);
 }
 
