@@ -18,7 +18,15 @@ export function useActivePanel(
     for (const w of wraps) {
       if (w.offsetTop <= probe) current = w;
     }
-    onChange(current?.className ?? "");
+    let cls = current?.className ?? "";
+    // o take lime do showcase vive DENTRO do painel graphite — quando
+    // seu frame cobre o topo, a tinta precisa trocar também
+    const take = document.querySelector<HTMLElement>(".showcase-sticky");
+    if (take) {
+      const r = take.getBoundingClientRect();
+      if (r.top <= 2 && r.bottom > 2) cls += " lime";
+    }
+    onChange(cls);
   });
 }
 
